@@ -1,4 +1,3 @@
-
 <template>
     <div id="firstcomponent">
         <div class="swiper-container">
@@ -71,6 +70,5 @@ export default {
     height: 200px;
 }
 .home-list-box ul li{
-
 }
 </style>
