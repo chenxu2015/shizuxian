@@ -1,18 +1,5 @@
 <style>
-.nav-box-bottom li{
-  float:left;
-  height: 50px;
-  line-height: 50px;
-  font-size: 12px;
-}
-.nav-box-bottom li button{
-  border: 0;
-  background-color: rgba(255,255,255,0);
-}
-.nav-box-bottom li a{
-    display: inline-block;
-    width: 100%;
-}
+
 </style>
 <template>
   <div id="app">
