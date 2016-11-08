@@ -37,9 +37,9 @@
         </section>  
         <div class="swiper-container">
             <div class="swiper-wrapper">
-                <div class="swiper-slide"><img src="../../static/img/meinv1.jpg" width="100%" /></div>
-                <div class="swiper-slide"><img src="../../static/img/meinv2.jpg" width="100%" /></div>
-                <div class="swiper-slide"><img src="../../static/img/meinv3.jpeg" width="100%" /></div>
+                <div class="swiper-slide"><img src="../assets/img/meinv1.jpg" width="100%" /></div>
+                <div class="swiper-slide"><img src="../assets/img/meinv2.jpg" width="100%" /></div>
+                <div class="swiper-slide"><img src="../assets/img/meinv3.jpeg" width="100%" /></div>
             </div>
             <div class="swiper-pagination"></div>
         </div>
@@ -55,42 +55,42 @@
             <h3 style="border-bottom:1px solid #dcdddd;font-size:16px;padding:8px 10px;color:red;">限时抢购</h3>
              <ul class="row wares-box">
                 <li class="col-xs-4 col-sm-4">
-                    <img src="../../static/img/meinv5.jpg" width="100%" height="120px;" />
+                    <img src="../assets/img/meinv5.jpg" width="100%" height="120px;" />
                     <p>红辣椒<br/><span>6.19/125g</span></p>
                 </li>
                  <li class="col-xs-4 col-sm-4">
-                    <img src="../../static/img/meinv3.jpeg" width="100%" height="120px;" />
+                    <img src="../assets/img/meinv3.jpeg" width="100%" height="120px;" />
                     <p>红辣椒<br/><span>6.19/125g</span></p>
                 </li>
                 <li class="col-xs-4 col-sm-4">
-                    <img src="../../static/img/meinv4.jpg" width="100%" height="120px;" />
+                    <img src="../assets/img/meinv4.jpg" width="100%" height="120px;" />
                     <p>红辣椒<br/><span>6.19/125g</span></p>
                 </li>
              </ul>
              <h3 style="border-bottom:1px solid #dcdddd;font-size:16px;padding:8px 10px;color:red;">热卖推荐</h3>
              <ul class="row wares-box">
                 <li class="col-xs-4 col-sm-4">
-                    <img src="../../static/img/meinv2.jpg" width="100%" />
+                    <img src="../assets/img/meinv2.jpg" width="100%" />
                     <p>红辣椒<br/><span>6.19/125g</span></p>
                 </li>
                  <li class="col-xs-4 col-sm-4">
-                    <img src="../../static/img/meinv2.jpg" width="100%" />
+                    <img src="../assets/img/meinv2.jpg" width="100%" />
                     <p>红辣椒<br/><span>6.19/125g</span></p>
                 </li>
                 <li class="col-xs-4 col-sm-4">
-                    <img src="../../static/img/meinv2.jpg" width="100%" />
+                    <img src="../assets/img/meinv2.jpg" width="100%" />
                     <p>红辣椒<br/><span>6.19/125g</span></p>
                 </li>
                 <li class="col-xs-4 col-sm-4">
-                    <img src="../../static/img/meinv2.jpg" width="100%" />
+                    <img src="../assets/img/meinv2.jpg" width="100%" />
                     <p>红辣椒<br/><span>6.19/125g</span></p>
                 </li>
                  <li class="col-xs-4 col-sm-4">
-                    <img src="../../static/img/meinv2.jpg" width="100%" />
+                    <img src="../assets/img/meinv2.jpg" width="100%" />
                     <p>红辣椒<br/><span>6.19/125g</span></p>
                 </li>
                 <li class="col-xs-4 col-sm-4">
-                    <img src="../../static/img/meinv2.jpg" width="100%" />
+                    <img src="../assets/img/meinv2.jpg" width="100%" />
                     <p>红辣椒<br/><span>6.19/125g</span></p>
                 </li>
              </ul>
