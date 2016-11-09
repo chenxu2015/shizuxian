@@ -41,6 +41,7 @@ var getSortString = function(values){
 //console.log(getFinalParams(para));
 
 var commonAjax = function(url,callback,para){
+	console.log("welcome to use ");
 	var prefix = "http://139.224.65.231/resurgam";
 	
 	//请求获得数据
@@ -66,4 +67,3 @@ var execute = function(data){
 	data = JSON.parse(data);
 	console.log(data.data);
 }
-console.log("comming in common.js");

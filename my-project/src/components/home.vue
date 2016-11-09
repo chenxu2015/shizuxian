@@ -99,10 +99,13 @@
 </template>
 <script>
 import Vue from 'vue'
+import VueResource from 'vue-resource'
+Vue.use(VueResource)
 import VueInfiniteScroll from 'vue-infinite-scroll'
 Vue.use(VueInfiniteScroll)
 import swiper from 'swiper'
-import common from '../assets/common.js'
+// import common from '../assets/common.js'
+// import jquery from 'jquery'
 export default {
     	data() {
             return {
@@ -131,10 +134,15 @@ export default {
                         pagination: '.swiper-pagination'
                     });
                 });
-                // setTimeout(function(){
-                //     console.log("setTimeout");
-                //     commonAjax("/api/index.xhtml",execute,para);
-                // },2000);
+                setTimeout(function(){
+                    var para = {"pageNo":0,"maxNum":20};
+                    function getHomeData(data){
+                        console.log("执行回到函数：" + data);
+                        data = JSON.parse(data);
+                        console.log(data.isSuccess);
+                    }
+                    commonAjax("/api/index.xhtml",para,"get",getHomeData);
+                }, 100);
             },
             loadMore: function() {
                 console.log("loadMore...");
