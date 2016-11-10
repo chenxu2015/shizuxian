@@ -15,6 +15,7 @@ import home from './components/home.vue'
 import category from './components/category.vue'
 import shoppingTrolley from './components/shopping-trolley.vue'
 import myaccount from './components/myaccount.vue'
+import productDetails from './components/product-details.vue'
 
 // 创建一个路由器实例
 // 并且配置路由规则
@@ -42,6 +43,9 @@ const router = new VueRouter({
         }, {
             path: 'myaccount',
             component: myaccount
+        },{
+            path: 'product-details',
+            component: productDetails
         }]
     }]
 })
