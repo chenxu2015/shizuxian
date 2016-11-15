@@ -51,49 +51,77 @@
             <li class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="text-align:center;"><i class="iconfont icon-telphone" style="color:rgba(88,138,66,1);"></i>客服</li>
             <li class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="text-align:center;"><i class="iconfont icon-enterprise" style="color:rgba(125,102,180,1);"></i>企业</li>
         </ul>
-        <div class="home-list-box" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
-            <h3 style="border-bottom:1px solid #dcdddd;font-size:16px;padding:8px 10px;color:red;">限时抢购</h3>
-             <ul class="row wares-box">
-                <li class="col-xs-4 col-sm-4">
-                    <img src="../assets/img/meinv5.jpg" width="100%" height="120px;" />
-                    <p>红辣椒<br/><span>6.19/125g</span></p>
-                </li>
-                 <li class="col-xs-4 col-sm-4">
-                    <img src="../assets/img/meinv3.jpeg" width="100%" height="120px;" />
-                    <p>红辣椒<br/><span>6.19/125g</span></p>
-                </li>
-                <li class="col-xs-4 col-sm-4">
-                    <img src="../assets/img/meinv4.jpg" width="100%" height="120px;" />
-                    <p>红辣椒<br/><span>6.19/125g</span></p>
-                </li>
-             </ul>
-             <h3 style="border-bottom:1px solid #dcdddd;font-size:16px;padding:8px 10px;color:red;">热卖推荐</h3>
-             <ul class="row wares-box">
-                <li class="col-xs-4 col-sm-4">
-                    <img src="../assets/img/meinv2.jpg" width="100%" />
-                    <p>红辣椒<br/><span>6.19/125g</span></p>
-                </li>
-                 <li class="col-xs-4 col-sm-4">
-                    <img src="../assets/img/meinv2.jpg" width="100%" />
-                    <p>红辣椒<br/><span>6.19/125g</span></p>
-                </li>
-                <li class="col-xs-4 col-sm-4">
-                    <img src="../assets/img/meinv2.jpg" width="100%" />
-                    <p>红辣椒<br/><span>6.19/125g</span></p>
-                </li>
-                <li class="col-xs-4 col-sm-4">
-                    <img src="../assets/img/meinv2.jpg" width="100%" />
-                    <p>红辣椒<br/><span>6.19/125g</span></p>
-                </li>
-                 <li class="col-xs-4 col-sm-4">
-                    <img src="../assets/img/meinv2.jpg" width="100%" />
-                    <p>红辣椒<br/><span>6.19/125g</span></p>
-                </li>
-                <li class="col-xs-4 col-sm-4">
-                    <img src="../assets/img/meinv2.jpg" width="100%" />
-                    <p>红辣椒<br/><span>6.19/125g</span></p>
-                </li>
-             </ul>
+       <div class="home-list-box" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
+    <h3 style="border-bottom:1px solid #dcdddd;font-size:16px;padding:8px 10px;color:red;">限时抢购</h3>
+    <ul class="row wares-box">
+        <li class="col-xs-4 col-sm-4">
+            <a href="/content/product-details">
+                <img src="../assets/img/meinv5.jpg" width="100%" height="120px;" />
+                <p>红辣椒
+                    <br/><span>6.19/125g</span></p>
+            </a>
+        </li>
+        <li class="col-xs-4 col-sm-4">
+            <a href="/content/product-details">
+                <img src="../assets/img/meinv3.jpeg" width="100%" height="120px;" />
+                <p>红辣椒
+                    <br/><span>6.19/125g</span></p>
+            </a>
+        </li>
+        <li class="col-xs-4 col-sm-4">
+            <a href="/content/product-details">
+                <img src="../assets/img/meinv4.jpg" width="100%" height="120px;" />
+                <p>红辣椒
+                    <br/><span>6.19/125g</span></p>
+            </a>
+        </li>
+    </ul>
+    <h3 style="border-bottom:1px solid #dcdddd;font-size:16px;padding:8px 10px;color:red;">热卖推荐</h3>
+    <ul class="row wares-box">
+        <li class="col-xs-4 col-sm-4">
+            <a href="/content/product-details">
+                <img src="../assets/img/meinv2.jpg" width="100%" />
+                <p>红辣椒
+                    <br/><span>6.19/125g</span></p>
+            </a>
+        </li>
+        <li class="col-xs-4 col-sm-4">
+            <a href="/content/product-details">
+                <img src="../assets/img/meinv2.jpg" width="100%" />
+                <p>红辣椒
+                    <br/><span>6.19/125g</span></p>
+            </a>
+        </li>
+        <li class="col-xs-4 col-sm-4">
+            <a href="/content/product-details">
+                <img src="../assets/img/meinv2.jpg" width="100%" />
+                <p>红辣椒
+                    <br/><span>6.19/125g</span></p>
+            </a>
+        </li>
+        <li class="col-xs-4 col-sm-4">
+            <a href="/content/product-details">
+                <img src="../assets/img/meinv2.jpg" width="100%" />
+                <p>红辣椒
+                    <br/><span>6.19/125g</span></p>
+            </a>
+        </li>
+        <li class="col-xs-4 col-sm-4">
+            <a href="/content/product-details">
+                <img src="../assets/img/meinv2.jpg" width="100%" />
+                <p>红辣椒
+                    <br/><span>6.19/125g</span></p>
+            </a>
+        </li>
+        <li class="col-xs-4 col-sm-4">
+            <a href="/content/product-details">
+                <img src="../assets/img/meinv2.jpg" width="100%" />
+                <p>红辣椒
+                    <br/><span>6.19/125g</span></p>
+            </a>
+        </li>
+    </ul>
+
         </div>
     </div>
 </template>
@@ -104,8 +132,6 @@ Vue.use(VueResource)
 import VueInfiniteScroll from 'vue-infinite-scroll'
 Vue.use(VueInfiniteScroll)
 import swiper from 'swiper'
-// import common from '../assets/common.js'
-// import jquery from 'jquery'
 export default {
     	data() {
             return {
