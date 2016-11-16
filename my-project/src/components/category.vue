@@ -1,12 +1,14 @@
-<style lang="scss">
+<style lang="scss" scoped>
+$bgcolor:#51B951;
 .search-box{
-	background-color:green;
+	background-color:$bgcolor;
 	padding:12px;
 	input{
-		padding:6px 12px;
-		width:calc(100% - 60px);
-		border:1px solid #51D851;
-		border-radius:12px;
+	    padding: 6px 12px;
+	    width: calc(100% - 60px);
+	    border: 1px solid #51D851;
+	    border-radius: 12px;
+	    background-color: rgba(255,255,255,0.8);
 	}
 	.search-button{
 		color:#fff;
@@ -19,6 +21,7 @@
 	border-bottom:1px solid #dcdddd;
 }
 .category-list-box{
+	padding-bottom:58px;
 	.media{
 		img{
 			width:80px;
@@ -27,6 +30,14 @@
 		margin-top:16px;
 		padding:0 16px 16px 16px;
 		border-bottom:1px solid #dcdddd;
+		position:relative;
+		.icon-shopping-add{
+			color:$bgcolor;
+			font-size:26px;
+			position:absolute;
+			bottom:4px;
+			right:20px;
+		}
 	}
 }
 </style>
@@ -52,6 +63,7 @@
 		    </h4>
 		    <span style="color:red;">$5.95</span>
 		  </div>
+		  <i class="iconfont icon-shopping-add"></i>
 		</div>
 		<div class="media">
 		  <a class="media-left" href="#">
@@ -63,6 +75,7 @@
 		    </h4>
 		    <span style="color:red;">$5.95</span>
 		  </div>
+		  <i class="iconfont icon-shopping-add"></i>
 		</div>
 		<div class="media">
 		  <a class="media-left" href="#">
@@ -74,6 +87,7 @@
 		    </h4>
 		    <span style="color:red;">$5.95</span>
 		  </div>
+		  <i class="iconfont icon-shopping-add"></i>
 		</div>
 		<div class="media">
 		  <a class="media-left" href="#">
@@ -85,6 +99,7 @@
 		    </h4>
 		    <span style="color:red;">$5.95</span>
 		  </div>
+		  <i class="iconfont icon-shopping-add"></i>
 		</div>
 		<div class="media">
 		  <a class="media-left" href="#">
@@ -96,6 +111,7 @@
 		    </h4>
 		    <span style="color:red;">$5.95</span>
 		  </div>
+		  <i class="iconfont icon-shopping-add"></i>
 		</div>
       </section>
   </div>

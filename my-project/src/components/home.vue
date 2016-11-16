@@ -1,4 +1,4 @@
-<style lang="scss">
+<style lang="scss" scoped>
 
 #firstcomponent{
     padding-bottom:50px;

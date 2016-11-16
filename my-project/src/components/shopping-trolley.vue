@@ -1,6 +1,6 @@
-<style lang="scss">
+<style lang="scss" scoped>
 .search-box{
-	background-color:green;
+	background-color:#51B951;
 	padding:12px;
 	text-align: center;
 	font-size:16px;
