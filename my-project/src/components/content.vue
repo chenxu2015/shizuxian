@@ -42,7 +42,7 @@ export default {
     }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .nav-box-bottom li {
     float: left;
     font-size: 12px;

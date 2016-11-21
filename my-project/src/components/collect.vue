@@ -1,20 +1,11 @@
 <style lang="scss" scoped>
 $bgcolor:#51B951;
 .search-box{
-	background-color:$bgcolor;
+	background-color:#51B951;
 	padding:12px;
-	input{
-	    padding: 6px 12px;
-	    width: calc(100% - 60px);
-	    border: 1px solid #51D851;
-	    border-radius: 12px;
-	    background-color: rgba(255,255,255,0.8);
-	}
-	.search-button{
-		color:#fff;
-		font-size:18px;
-		margin-left:12px;
-	}
+	text-align: center;
+	font-size:16px;
+	color:#fff;
 }
 .filter-condition{
 	padding:0;
@@ -49,12 +40,16 @@ $bgcolor:#51B951;
 		padding:0 16px 16px 16px;
 		border-bottom:1px solid #dcdddd;
 		position:relative;
-		.icon-shopping-add{
+		.go-pay-btn{
 			color:$bgcolor;
-			font-size:26px;
+			font-size:16px;
 			position:absolute;
-			bottom:4px;
-			right:20px;
+			bottom:8px;
+			right:16px;
+			padding:4px 10px;
+			border:#bbb 1px solid;
+			background-color:#eee;
+			border-radius:4px;
 		}
 	}
 }
@@ -62,47 +57,8 @@ $bgcolor:#51B951;
 <template>
   <div id="secondcomponent">
      <section class="search-box">
-     	<form action="">
-		    <input type="search" name="search" id="search" placeholder="请输入要搜索的内容" />
-		    <span class="search-button">搜索</span>
-		</form>
-     </section>
-     <section class="filter-condition">
-     	<div class="btn-group">
-		  <div class="btn-group">
-		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-		      全部
-		      <span class="iconfont icon-xialajiantou-shen"></span>
-		    </button>
-		    <ul class="dropdown-menu" role="menu">
-		      <li><a href="#">海贝类</a></li>
-		      <li><a href="#">鱼类</a></li>
-		      <li><a href="#">贝壳类</a></li>
-		      <li><a href="#">虾类</a></li>
-		    </ul>
-		  </div>
-		  <div class="btn-group">
-		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-		      销量排序
-		      <span class="iconfont icon-xialajiantou-shen"></span>
-		    </button>
-		    <!-- <ul class="dropdown-menu" role="menu">
-		      <li><a href="#">Dropdown link</a></li>
-		      <li><a href="#">Dropdown link</a></li>
-		    </ul> -->
-		  </div>
-		  <div class="btn-group">
-		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-		      价格排序
-		      <span class="iconfont icon-xialajiantou-shen"></span>
-		    </button>
-		   <!--  <ul class="dropdown-menu" role="menu">
-		      <li><a href="#">Dropdown link</a></li>
-		      <li><a href="#">Dropdown link</a></li>
-		    </ul> -->
-		  </div>
-		</div>
-     </section>
+      我的收藏
+    </section>
      <section class="category-list-box" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
         <div class="media">
 		  <a class="media-left" href="#">
@@ -114,55 +70,67 @@ $bgcolor:#51B951;
 		    </h4>
 		    <span style="color:red;">$5.95</span>
 		  </div>
-		  <i class="iconfont icon-shopping-add"></i>
+		  <button type="button" class="go-pay-btn">立即购买</button>
 		</div>
 		<div class="media">
 		  <a class="media-left" href="#">
-		    <img src="../assets/img/meinv2.jpg" alt="../assets/img/meinv2.jpg">
+		    <img src="../assets/img/meinv1.jpg" alt="../assets/img/meinv1.jpg">
 		  </a>
 		  <div class="media-body">
-		   <h4 class="media-heading">
+		    <h4 class="media-heading">
 		    	红彩椒250g（250g/份）
 		    </h4>
 		    <span style="color:red;">$5.95</span>
 		  </div>
-		  <i class="iconfont icon-shopping-add"></i>
+		  <button type="button" class="go-pay-btn">立即购买</button>
 		</div>
 		<div class="media">
 		  <a class="media-left" href="#">
-		    <img src="../assets/img/meinv2.jpg" alt="../assets/img/meinv2.jpg">
+		    <img src="../assets/img/meinv1.jpg" alt="../assets/img/meinv1.jpg">
 		  </a>
 		  <div class="media-body">
-		   <h4 class="media-heading">
+		    <h4 class="media-heading">
 		    	红彩椒250g（250g/份）
 		    </h4>
 		    <span style="color:red;">$5.95</span>
 		  </div>
-		  <i class="iconfont icon-shopping-add"></i>
+		  <button type="button" class="go-pay-btn">立即购买</button>
 		</div>
 		<div class="media">
 		  <a class="media-left" href="#">
-		    <img src="../assets/img/meinv2.jpg" alt="../assets/img/meinv2.jpg">
+		    <img src="../assets/img/meinv1.jpg" alt="../assets/img/meinv1.jpg">
 		  </a>
 		  <div class="media-body">
-		   <h4 class="media-heading">
+		    <h4 class="media-heading">
 		    	红彩椒250g（250g/份）
 		    </h4>
 		    <span style="color:red;">$5.95</span>
 		  </div>
-		  <i class="iconfont icon-shopping-add"></i>
+		  <button type="button" class="go-pay-btn">立即购买</button>
 		</div>
 		<div class="media">
 		  <a class="media-left" href="#">
-		    <img src="../assets/img/meinv2.jpg" alt="../assets/img/meinv2.jpg">
+		    <img src="../assets/img/meinv1.jpg" alt="../assets/img/meinv1.jpg">
 		  </a>
 		  <div class="media-body">
-		   <h4 class="media-heading">
+		    <h4 class="media-heading">
 		    	红彩椒250g（250g/份）
 		    </h4>
 		    <span style="color:red;">$5.95</span>
 		  </div>
-		  <i class="iconfont icon-shopping-add"></i>
+		  <button type="button" class="go-pay-btn">立即购买</button>
+		</div>
+		<div class="media">
+		  <a class="media-left" href="#">
+		    <img src="../assets/img/meinv1.jpg" alt="../assets/img/meinv1.jpg">
+		  </a>
+		  <div class="media-body">
+		    <h4 class="media-heading">
+		    	红彩椒250g（250g/份）
+		    </h4>
+		    <span style="color:red;">$5.95</span>
+		  </div>
+		  <button type="button" class="go-pay-btn">立即购买</button>
 		</div>
       </section>
   </div>

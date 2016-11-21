@@ -16,6 +16,8 @@ import category from './components/category.vue'
 import shoppingTrolley from './components/shopping-trolley.vue'
 import myaccount from './components/myaccount.vue'
 import productDetails from './components/product-details.vue'
+import allOrder from './components/all-order.vue'
+import collect from './components/collect.vue'
 
 // 创建一个路由器实例
 // 并且配置路由规则
@@ -43,9 +45,15 @@ const router = new VueRouter({
         }, {
             path: 'myaccount',
             component: myaccount
-        },{
+        }, {
             path: 'product-details',
             component: productDetails
+        }, {
+            path: 'all-order',
+            component: allOrder
+        },{
+            path: 'collect',
+            component: collect
         }]
     }]
 })
