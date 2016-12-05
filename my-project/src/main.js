@@ -46,7 +46,7 @@ const router = new VueRouter({
             path: 'myaccount',
             component: myaccount
         }, {
-            path: 'product-details',
+            path: 'product-details/:detailId',
             component: productDetails
         }, {
             path: 'all-order',
@@ -64,3 +64,6 @@ const app = new Vue({
     router: router,
     render: h => h(App)
 }).$mount('#app')
+
+
+

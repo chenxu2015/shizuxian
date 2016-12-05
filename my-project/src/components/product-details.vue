@@ -3,27 +3,22 @@
         
         <div class="swiper-container">
             <div class="swiper-wrapper">
-                <div class="swiper-slide"><img src="../assets/img/meinv1.jpg" width="100%" /></div>
-                <div class="swiper-slide"><img src="../assets/img/meinv1.jpg" width="100%" /></div>
-                <div class="swiper-slide"><img src="../assets/img/meinv1.jpg" width="100%" /></div>
-                <div class="swiper-slide"><img src="../assets/img/meinv1.jpg" width="100%" /></div>
+                <div class="swiper-slide" v-for="pic in detailMap.picList">
+                <img :src="detailMap.basePic + pic.url" width="100%" />
+            </div>
             </div>
             <div class="swiper-pagination"></div>
         </div>
         <div class="description col-xs-12 col-sm-12">
             <p>
-                <span>舟山野生黄鱼</span>
-                <span>东海新鲜捕捞</span>
-                <span>当日船货非冷冻</span>
-                <span>1斤4-5条</span>
+                <span>{{detailMap.product.title}}</span>
             </p>
         </div>
         <div class="product-recommend col-xs-12 col-sm-12">
-            <span>热销产品</span>
-            <span>强烈推荐</span>
+            <span>{{detailMap.product.describer}}</span>
         </div>
         <div class="product-price col-xs-7 col-sm-7">
-            <span>¥22.95/6斤<span>
+            <span>{{detailMap.product.price}}<span>
         </div>
         <div class="product-details col-xs-12 col-sm-12">
             <div class="product-title">
@@ -127,9 +122,7 @@ import swiper from 'swiper'
 export default {
     data() {
             return {
-                loading: false,
-                post: null,
-                error: null
+                detailMap:{}
             }
         },
         created() {
@@ -143,14 +136,25 @@ export default {
         },
         methods: {
             fetchData() {
-                this.error = this.post = null
-                this.loading = true
-                setTimeout(function() {
-                    var mySwiper = new Swiper('.swiper-container', {
-                        pagination: '.swiper-pagination',
-                        paginationClickable: true
-                    });
-                });
+                var _self = this;
+                function getDetailFunc(data){
+                    data = JSON.parse(data);
+                    if(data.isSuccess){
+                        _self.detailMap = data.data;
+                        setTimeout(function() {
+                            var mySwiper = new Swiper('.swiper-container', {
+                                pagination: '.swiper-pagination',
+                                paginationClickable: true
+                            });
+                        });
+                    }else{
+                        alert("获取数据异常");
+                    }
+                }
+                setTimeout(function(){
+                    var detailPara = {"recordId":_self.$route.params.detailId};
+                    commonAjax("/api/productDetails.xhtml",detailPara,"get",getDetailFunc);
+                }, 100);
             }
         }
 }

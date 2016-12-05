@@ -104,63 +104,15 @@ $bgcolor:#51B951;
 		</div>
      </section>
      <section class="category-list-box" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
-        <div class="media">
+        <div class="media" v-for="categoryIndex in categoryIndexMap.list">
 		  <a class="media-left" href="#">
-		    <img src="../assets/img/meinv1.jpg" alt="../assets/img/meinv1.jpg">
+		    <img :src="categoryIndexMap.basePic + categoryIndex.logoUri">
 		  </a>
 		  <div class="media-body">
 		    <h4 class="media-heading">
-		    	红彩椒250g（250g/份）
+		    	{{categoryIndex.title}}
 		    </h4>
-		    <span style="color:red;">$5.95</span>
-		  </div>
-		  <i class="iconfont icon-shopping-add"></i>
-		</div>
-		<div class="media">
-		  <a class="media-left" href="#">
-		    <img src="../assets/img/meinv2.jpg" alt="../assets/img/meinv2.jpg">
-		  </a>
-		  <div class="media-body">
-		   <h4 class="media-heading">
-		    	红彩椒250g（250g/份）
-		    </h4>
-		    <span style="color:red;">$5.95</span>
-		  </div>
-		  <i class="iconfont icon-shopping-add"></i>
-		</div>
-		<div class="media">
-		  <a class="media-left" href="#">
-		    <img src="../assets/img/meinv2.jpg" alt="../assets/img/meinv2.jpg">
-		  </a>
-		  <div class="media-body">
-		   <h4 class="media-heading">
-		    	红彩椒250g（250g/份）
-		    </h4>
-		    <span style="color:red;">$5.95</span>
-		  </div>
-		  <i class="iconfont icon-shopping-add"></i>
-		</div>
-		<div class="media">
-		  <a class="media-left" href="#">
-		    <img src="../assets/img/meinv2.jpg" alt="../assets/img/meinv2.jpg">
-		  </a>
-		  <div class="media-body">
-		   <h4 class="media-heading">
-		    	红彩椒250g（250g/份）
-		    </h4>
-		    <span style="color:red;">$5.95</span>
-		  </div>
-		  <i class="iconfont icon-shopping-add"></i>
-		</div>
-		<div class="media">
-		  <a class="media-left" href="#">
-		    <img src="../assets/img/meinv2.jpg" alt="../assets/img/meinv2.jpg">
-		  </a>
-		  <div class="media-body">
-		   <h4 class="media-heading">
-		    	红彩椒250g（250g/份）
-		    </h4>
-		    <span style="color:red;">$5.95</span>
+		    <span style="color:red;">{{categoryIndex.price}}</span>
 		  </div>
 		  <i class="iconfont icon-shopping-add"></i>
 		</div>
@@ -177,7 +129,7 @@ Vue.use(VueInfiniteScroll)
 export default {
     	data() {
             return {
-                
+                categoryIndexMap:{}
             }
         },
         created() {
@@ -191,8 +143,30 @@ export default {
         },
         methods: {
             fetchData() {
-                
-                
+            	var _self = this;
+            	//获取分类数据 start
+ 				function getCategoryMap(data){
+ 					console.log("分类数据：" + data);
+                    data = JSON.parse(data);
+                    if(data.isSuccess){
+                        _self.categoryMap = data.data;
+                    }
+                }
+            	//获取分类数据 end
+                //获取主页的数据 start
+                function getCategoryIndexMap(data){
+                    data = JSON.parse(data);
+                    if(data.isSuccess){
+                        _self.categoryIndexMap = data.data;
+                    }
+                }
+                //获取主页的数据 end
+                setTimeout(function(){
+                    var categoryIndexMapPara = {"pageNo":0,"maxNum":12};
+                    commonAjax("/api/index.xhtml",categoryIndexMapPara,"get",getCategoryIndexMap);
+                    var getCategoryMapPara = {};
+                    commonAjax("/api/getprocateData.xhtml",getCategoryMapPara,"get",getCategoryMap);
+                }, 100);
             },
             loadMore: function() {
                 console.log("loadMore category...");
