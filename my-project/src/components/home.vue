@@ -1,7 +1,23 @@
 <style lang="scss" scoped>
-
+$bgcolor:#51B951;
 #firstcomponent{
     padding-bottom:60px;
+    .position-choose-btn{
+        font-size:16px;color:white;float:left;margin-left:10px; 
+    }
+    ul.dropdown-menu{
+        position:fixed;top:46px;max-height:calc(100% - 110px);overflow:hidden;overflow-y:auto;
+    }
+    .index-title-box{
+        border-bottom:1px solid #dcdddd;font-size:16px;padding:8px 10px;color:$bgcolor;
+    }
+    .position-title-box{
+        position: relative;background-color:$bgcolor;height:50px;line-height:50px;text-align: center;overflow:hidde;
+        .dropdown-toggle{
+            background-color: $bgcolor; border: solid 0 $bgcolor; color: #fff; margin-top: 6px; font-size: 18px;box-shadow:none;
+        }
+    }
+
 }
 .swiper-slide {
     background-color: #428bca;
@@ -35,81 +51,78 @@
 </style>
 <template>
     <div id="firstcomponent" class="container" style="padding:0;padding-bottom:60px;">
-        <section style="position: relative;background-color:rgb(76, 187, 8);height:50px;line-height:50px;text-align: center;overflow:hidden;">
-            <span style="font-size:16px;color:white;float:left;margin-left:10px;"><i class="iconfont icon-position"></i>上海</span>
-            <span style="color:white;font-size:22px;margin-left:-50px;">十足鲜</span>
+        <section class="position-title-box">
+            <div class="btn-group pull-left">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                  上海
+                  <span class="iconfont icon-position"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li v-for="indexCityDataPro in indexCityDataMap.pro"><a href="javascript:;" v-on:click="chooseCityFunc(indexCityDataPro.recordId)">{{indexCityDataPro.name}}</a></li>
+                </ul>
+            </div>
+          <span style="color:white;font-size:22px;margin-left:-50px;">十足鲜</span>
         </section>  
         <div class="swiper-container">
             <div class="swiper-wrapper">
-                <div class="swiper-slide" v-for="indexTopre in indexTopreMap.list"><img :src="indexTopreMap.basePic + indexTopre.content.logo" width="100%" /></div>
+                <div class="swiper-slide" v-for="indexTopre in indexTopreMap.list">
+                    <router-link :to="{name: 'productDetails', params: {detailId: indexTopre.recordId}}">
+                        <img :src="indexTopreMap.basePic + indexTopre.content.logo" width="100%" />
+                    </router-link>
+                </div>
             </div>
             <div class="swiper-pagination"></div>
         </div>
         <ul class="row action-list-box">
-            <li class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="text-align:center;"></li>
-            <li class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="text-align:center;"><a href="/content/collect" class="iconfont icon-collect" style="color:rgba(88,153,217,1);"><span>收藏</span></a></li>
-            <li class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="text-align:center;"><a href="/content/all-order" class="iconfont icon-order" style="color:rgba(124,200,47,1);"><span>订单</span></a></li>
-            <li class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="text-align:center;"><a href="/content/collect" class="iconfont icon-recharge" style="color:rgba(79,205,204,1);"><span>充值</span></a></li>
-            <li class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="text-align:center;"><a href="tel:15900996441" class="iconfont icon-telphone" style="color:rgba(88,138,66,1);"><span>客服</span></a></li>
-            <li class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="text-align:center;"><a href="/content/collect" class="iconfont icon-enterprise" style="color:rgba(125,102,180,1);"><span>企业</span></a></li>
+            <li class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></li>
+            <li class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                 <router-link :to="{path: '/content/collect'}" class="iconfont icon-collect" style="color:rgba(88,153,217,1);">
+                    <span>收藏</span>
+                 </router-link>
+            </li>
+            <li class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                <router-link :to="{path: '/content/all-order'}" class="iconfont icon-order" style="color:rgba(124,200,47,1);">
+                    <span>订单</span>
+                </router-link>
+            </li>
+            <li class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                <router-link :to="{path: '/content/all-order'}" class="iconfont icon-recharge" style="color:rgba(79,205,204,1);">
+                    <span>充值</span>
+                </router-link>
+            </li>
+            <li class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                <a href="tel:15900996441" class="iconfont icon-telphone" style="color:rgba(88,138,66,1);">
+                    <span>客服</span>
+                </a>
+            </li>
+            <li class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                <router-link :to="{path: '/content/enterprise'}" class="iconfont icon-enterprise" style="color:rgba(125,102,180,1);">
+                    <span>企业</span>
+                </router-link>
+            </li>
         </ul>
+
        <div class="home-list-box" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
-    <h3 style="border-bottom:1px solid #dcdddd;font-size:16px;padding:8px 10px;color:red;">限时抢购</h3>
+    <h3 class="index-title-box">限时抢购</h3>
     <ul class="row wares-box">
         <li class="col-xs-4 col-sm-4" v-for="indexSettime in indexSettimeMap.list">
-            <a :href="'product-details/'+ indexSettime.recordId">
+            <router-link :to="{name: 'productDetails', params: {detailId: indexSettime.recordId}}">
                 <img :src="indexSettimeMap.basePic + indexSettime.logoUri" width="100%" height="120px;" />
                 <p>{{indexSettime.title}}
                     <br/><span style="color:rgb(76, 187, 8);">${{indexSettime.price}}</span></p>
-            </a>
+            </router-link>
         </li>
     </ul>
-    <h3 style="border-bottom:1px solid #dcdddd;font-size:16px;padding:8px 10px;color:red;">热卖推荐</h3>
+    <h3 class="index-title-box">热卖推荐</h3>
     <ul class="row wares-box">
-        <li class="col-xs-4 col-sm-4">
-            <a href="/content/product-details">
-                <img src="../assets/img/meinv2.jpg" width="100%" />
-                <p>红辣椒
-                    <br/><span>6.19/125g</span></p>
-            </a>
-        </li>
-        <li class="col-xs-4 col-sm-4">
-            <a href="/content/product-details">
-                <img src="../assets/img/meinv2.jpg" width="100%" />
-                <p>红辣椒
-                    <br/><span>6.19/125g</span></p>
-            </a>
-        </li>
-        <li class="col-xs-4 col-sm-4">
-            <a href="/content/product-details">
-                <img src="../assets/img/meinv2.jpg" width="100%" />
-                <p>红辣椒
-                    <br/><span>6.19/125g</span></p>
-            </a>
-        </li>
-        <li class="col-xs-4 col-sm-4">
-            <a href="/content/product-details">
-                <img src="../assets/img/meinv2.jpg" width="100%" />
-                <p>红辣椒
-                    <br/><span>6.19/125g</span></p>
-            </a>
-        </li>
-        <li class="col-xs-4 col-sm-4">
-            <a href="/content/product-details">
-                <img src="../assets/img/meinv2.jpg" width="100%" />
-                <p>红辣椒
-                    <br/><span>6.19/125g</span></p>
-            </a>
-        </li>
-        <li class="col-xs-4 col-sm-4">
-            <a href="/content/product-details">
-                <img src="../assets/img/meinv2.jpg" width="100%" />
-                <p>红辣椒
-                    <br/><span>6.19/125g</span></p>
-            </a>
+        <li class="col-xs-4 col-sm-4" v-for="indexHotSale in indexHotSaleMap.list">
+            <router-link :to="{name: 'productDetails', params: {detailId: indexHotSale.recordId}}">
+                <img :src="indexHotSaleMap.basePic + indexHotSale.logoUri" width="100%" height="120px;" />
+                <p>{{indexHotSale.title}}
+                    <br/><span style="color:rgb(76, 187, 8);">${{indexHotSale.price}}</span></p>
+            </router-link>
         </li>
     </ul>
-
         </div>
     </div>
 </template>
@@ -128,7 +141,9 @@ export default {
                 post: null,
                 error: null,
                 indexTopreMap:{},
-                indexSettimeMap:{}
+                indexSettimeMap:{},
+                indexHotSaleMap:{},
+                indexCityDataMap:{}
             }
         },
         created() {
@@ -163,10 +178,25 @@ export default {
                 }
                 //获取首页头部广告位 end
                 //获取首页限时推荐 start
-                function getIndexSettimeMap(data){
+                function getIndexSettingMapFunc(data){
                     data = JSON.parse(data);
                     if(data.isSuccess){
                         _self.indexSettimeMap = data.data;
+                    }
+                }
+                //获取首页限时推荐 end
+                //获取首页限时推荐 start
+                function indexHotSaleMapFunc(data){
+                    data = JSON.parse(data);
+                    if(data.isSuccess){
+                        _self.indexHotSaleMap = data.data;
+                    }
+                }
+                 //获取首页的地址列表 start
+                function getIndexCityDataFunc(data){
+                    data = JSON.parse(data);
+                    if(data.isSuccess){
+                        _self.indexCityDataMap = data.data;
                     }
                 }
                 //获取首页限时推荐 end
@@ -174,7 +204,11 @@ export default {
                     var indexToprePara = {"maxNum":3};
                     commonAjax("/api/getIndexTopre.xhtml",indexToprePara,"get",getIndexTopre);
                     var indexSettimeMapPara = {"pageNo":0,"maxNum":3};
-                    commonAjax("/api/index.xhtml",indexSettimeMapPara,"get",getIndexSettimeMap);
+                    commonAjax("/api/getRecomondationQianggou.xhtml",indexSettimeMapPara,"get",getIndexSettingMapFunc);
+                    var indexHotSaleMapPara = {"pageNo":0,"maxNum":9};
+                    commonAjax("/api/getRecomondationRemai.xhtml",indexHotSaleMapPara,"get",indexHotSaleMapFunc);
+                    var indexCityDataPara = {};
+                    commonAjax("/api/getCityData.xhtml",indexCityDataPara,"get",getIndexCityDataFunc);
                 }, 100);
             },
             loadMore: function() {
@@ -184,6 +218,9 @@ export default {
                     
                     this.busy = false;
                 }, 1000);
+            },chooseCityFunc:function(recordId){
+                console.log("recordId:" + recordId
+                    );
             }
         }
 }

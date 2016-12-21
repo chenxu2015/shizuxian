@@ -55,8 +55,11 @@ $bgcolor:#51B951;
 	}
 	.statistics-box{
 		margin: 0;
-    	padding-bottom: 0;
-    	position:relative;
+        padding-bottom: 0;
+        position: fixed;
+        bottom: 57px;
+        background-color: #F1EEEE;
+        width: 100%;
     	.all-checked{
     		height:70px;line-height:70px;font-size:22px;border-right:1px solid #bbb;
     	}
@@ -90,29 +93,31 @@ $bgcolor:#51B951;
 }
 </style>
 <template>
-  <div id="firstcomponent">
+  <div id="firstcomponent" style="padding-bottom:75px;">
     <section class="search-box">
         购物车
     </section>
     <section class="category-list-box" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
         <!--media start-->
         <div class="media">
-            <div class="media-left fuxuankuang-box">
-                <i class="iconfont icon-fuxuankuang"></i>
-            </div>
-            <a class="media-left" href="#">
-                <img src="../assets/img/meinv1.jpg" alt="../assets/img/meinv1.jpg">
-            </a>
-            <div class="media-body">
-                <h4 class="media-heading">
-		    	红彩椒250g（250g/份）
-		    </h4>
-                <span style="color:red;">$5.95</span>
-            </div>
+            <section>
+                <div class="media-left fuxuankuang-box"  v-on:click="checkedBuycar(3)">
+                    <i class="iconfont icon-fuxuankuang" v-bind:class="{ active: isActive }"></i>
+                </div>
+                <a class="media-left" href="#">
+                    <img src="../assets/img/meinv1.jpg" alt="../assets/img/meinv1.jpg">
+                </a>
+                <div class="media-body">
+                    <router-link :to="{name: 'productDetails', params: {detailId: 55}}" class="media-heading" style="display:block;">
+    		    	    红彩椒250g（250g/份）
+    		        </router-link>
+                    <span style="color:red;">$5.95</span>
+                </div>
+            </section>
             <section class="action-box">
-                <i class="iconfont icon-yuanquanjianhao"></i>
+                <i class="iconfont icon-yuanquanjianhao" v-on:click="reduceBuycar(5)"></i>
                 <span>2</span>
-                <i class="iconfont icon-yuanquanjiahao"></i>
+                <i class="iconfont icon-yuanquanjiahao" v-on:click="addBuycar(6)"></i>
             </section>
         </div>
         <!--media end-->
@@ -215,7 +220,7 @@ $bgcolor:#51B951;
             <div class="media-left fuxuankuang-box">
                 <i class="iconfont icon-fuxuankuang"></i>
             </div>
-            <a class="media-left all-checked" href="#">
+            <a class="media-left all-checked" href="javascript:;" v-on:click="allCheckedBuycar()">
                 全选
             </a>
             <div class="media-body  price-box">
@@ -223,7 +228,7 @@ $bgcolor:#51B951;
                 <div class="count"><span>商品总额：</span><span class="money">22.2</span></div>
                 <div class="after-discount"><span>折后总价：</span><span class="money">22.2</span></div>
             </div>
-            <div class="settle-accounts-box">结算</div>
+            <div class="settle-accounts-box" v-on:click="payBuycar()">结算</div>
         </div>
     </section>
 </div>
@@ -253,12 +258,128 @@ export default {
         },
         methods: {
             fetchData() {
-                
-                
+                var _self = this;
+                //获得购物车列表 start
+                function getBuycarListMapFunc(data){
+                    data = JSON.parse(data);
+                    if(data.isSuccess){
+                        _self.buycarListMap = data.data;
+                    }
+                }
+                //获得购物车列表 end
+                setTimeout(function(){
+                    //获得购物车列表
+                    var buycarListMapPara = {"api_u_key":getCookie("api_u_key"),"pageNo":0,"maxPage":12};
+                    commonAjax("/api/buycar/getmybuycar.xhtml",buycarListMapPara,"get",getBuycarListMapFunc);
+                }, 100);
             },
             loadMore: function() {
                 console.log("loadMore category...");
                 this.busy = true;
+            },calculateBuycarMoney: function(){
+                //计算统计优惠价格
+                console.log("calculateBuycarMoney");
+            },addBuycar: function(relateId){
+                console.log("addBuycar" + relateId);
+                var _self = this;
+                 //增加货物到购物车 start
+                function addbuycarMapFunc(data){
+                    data = JSON.parse(data);
+                    if(data.isSuccess){
+                        _self.buycarListMap = data.data;
+                        _self.calculateBuycarMoney();
+                    }
+                }
+                //增加货物到购物车 end
+                setTimeout(function(){
+                    //增加货物到购物车
+                    var addbuycarMapPara = {"api_u_key":0,"tag":0,"relateId":12,"number":3};
+                    commonAjax("/api/buycar/updatebuycar.xhtml",addbuycarMapPara,"get",addbuycarMapFunc);
+                }, 100);
+            },reduceBuycar: function(relateId){
+                console.log("reduceBuycar" + relateId);
+                var _self = this;
+                 //减少货物到购物车 start
+                function reducebuycarMapFunc(data){
+                    data = JSON.parse(data);
+                    if(data.isSuccess){
+                        _self.buycarListMap = data.data;
+                         _self.calculateBuycarMoney();
+                    }
+                }
+                //减少货物到购物车 end
+                setTimeout(function(){
+                    //增加货物到购物车
+                    var reducebuycarMapPara = {"api_u_key":0,"relateId":12,"status":3,"number":5};
+                    commonAjax("/api/buycar/updatebuycar.xhtml",reducebuycarMapPara,"get",reducebuycarMapFunc);
+                }, 100);
+            },checkedBuycar: function(relateId){
+                console.log("checkedBuycar" + relateId);
+                var _self = this;
+                 //减少货物到购物车 start
+                function checkedBuycarMapFunc(data){
+                    data = JSON.parse(data);
+                    if(data.isSuccess){
+                        _self.buycarListMap = data.data;
+                         _self.calculateBuycarMoney();
+                    }
+                }
+                //减少货物到购物车 end
+                setTimeout(function(){
+                    //增加货物到购物车
+                    var checkedBuycarMapPara = {"api_u_key":0,"relateId":12,"status":3,"number":5};
+                    commonAjax("/api/buycar/updatebuycar.xhtml",checkedBuycarMapPara,"get",checkedBuycarMapFunc);
+                }, 100);
+            },allCheckedBuycar: function(){
+                console.log("allCheckedBuycar");
+                var _self = this;
+                 //全选购物车 start
+                function allCheckedBuycarMapFunc(data){
+                    data = JSON.parse(data);
+                    if(data.isSuccess){
+                        _self.buycarListMap = data.data;
+                         _self.calculateBuycarMoney();
+                    }
+                }
+                //全选购物车 end
+                setTimeout(function(){
+                    //增加货物到购物车
+                    var allCheckedBuycarMapPara = {"api_u_key":0,"relateId":12,"status":3,"number":5};
+                    commonAjax("/api/buycar/updatebuycar.xhtml",allCheckedBuycarMapPara,"get",allCheckedBuycarMapFunc);
+                }, 100);
+            },goProductDetail: function(){
+                console.log("goProductDetail");
+                var _self = this;
+                 //全选购物车 start
+                function allCheckedBuycarMapFunc(data){
+                    data = JSON.parse(data);
+                    if(data.isSuccess){
+                        _self.buycarListMap = data.data;
+                         _self.calculateBuycarMoney();
+                    }
+                }
+                //全选购物车 end
+                setTimeout(function(){
+                    //增加货物到购物车
+                    var allCheckedBuycarMapPara = {"api_u_key":0,"relateId":12,"status":3,"number":5};
+                    commonAjax("/api/buycar/updatebuycar.xhtml",allCheckedBuycarMapPara,"get",allCheckedBuycarMapFunc);
+                }, 100);
+            },payBuycar: function(){
+                console.log("payBuycar");
+                var _self = this;
+                 //全选购物车 start
+                function payBuyCarMapFunc(data){
+                    data = JSON.parse(data);
+                    if(data.isSuccess){
+                        
+                    }
+                }
+                //全选购物车 end
+                setTimeout(function(){
+                    //增加货物到购物车
+                    var payBuyCarMapPara = {};
+                    commonAjax("/api/order/payBuyCar.xhtml",payBuyCarMapPara,"get",payBuyCarMapFunc);
+                }, 100);
             }
         }
 }

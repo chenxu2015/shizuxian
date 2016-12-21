@@ -5,11 +5,11 @@
         </header>
         <section class="user-info clearfix">
             <div class="user-head">
-                <img src="../assets/img/user-head.png" />
+                <img :src="memberInfo.basePic + memberInfo.member.headUri" />
             </div>
             <div class="user-style">
                 <h4 class="h4 qq-user">QQ用户</h4>
-                <h5 class="h5 ordinary-user">普通用户</h5>
+                <h5 class="h5 ordinary-user">{{memberInfo.member.userName}}</h5>
             </div>
         </section>
         <section class="account-balance clearfix">
@@ -71,19 +71,49 @@
     </div>
 </template>
 <script>
+import Vue from 'vue'
 export default {
-    data() {
-        return {
-            author: "微信公众号 jinkey-love",
-            articles: []
+        data() {
+            this.captchaId = "";
+            return {
+                memberInfo:{}
+            }
+        },
+        created() {
+            this.fetchData()
+        },
+        watch: {
+            '$route': 'fetchData'
+        },
+        methods: {
+            fetchData() {
+                var _self = this;
+                //获取验证码 start
+                function getLoginMemberInfoFunc(data){
+                    data = JSON.parse(data);
+                    if(data.code == "3000"){
+                        goIndex();
+                    }else{
+                        if(data.isSuccess){
+                            _self.memberInfo = data.data;
+                        }
+                    }
+                }
+                setTimeout(function(){
+                    //获取验证码 start
+                    var loginMemberInfoPara = {"api_u_key": getCookie("api_u_key")};
+                    commonAjax("/api/getLoginMemberInfo.xhtml",loginMemberInfoPara,"get",getLoginMemberInfoFunc);
+                }, 200);
+               
+            }
         }
-    }
 }
 </script>
 <style lang="scss" scoped>
+$bgcolor:#51b951;
 .account-title {
     text-align: center;
-    background-color: #7EC954;
+    background-color: $bgcolor;
     padding: 12px;
     color: #fff;
 }
@@ -95,12 +125,14 @@ export default {
         img {
             width: 80px;
             height: 80px;
+            border-radius:50%;
         }
     }
     .user-style {
         float: left;
+        padding-left:14px;
         .qq-user {
-            color: #7EC954;
+            color: $bgcolor;
         }
     }
 }
@@ -125,7 +157,7 @@ export default {
                 font-size: 16px;
             }
             .balance-quantity {
-                color: #7EC954;
+                color: $bgcolor;
             }
         }
     }

@@ -20,11 +20,11 @@
         <div class="product-price col-xs-7 col-sm-7">
             <span>{{detailMap.product.price}}<span>
         </div>
-        <div class="product-details col-xs-12 col-sm-12">
-            <div class="product-title">
+        <div class="product-details col-xs-12 col-sm-12 clearfix">
+            <div class="product-title clearfix">
                 <h2 class="h5">商品详情</h2>
             </div>
-            <ul class="product-info-list">
+            <ul class="product-info-list clearfix">
                 <li>商品名称：<span>大黄鱼</span></li>
                 <li>商品规格：<span>单体重量在100g－200g</span></li>
                 <li>商品单位：<span>斤</span></li>
@@ -32,10 +32,12 @@
                 <li class="end">商品支持配送地区：<span>上海</span></li>
             </ul>
         </div>
-        <div class="tool-menu">
-            <span class="collection col-xs-6 col-sm-6">收藏</span>
-            <span class="collection-icon"></span>
-            <span class="purchase col-xs-6 col-sm-6">立即下单</span>
+        <div class="tool-menu clearfix">
+            <div style="width: 50%; float: left;" v-on:click="collectProduct()">
+                <span class="collection col-xs-6 col-sm-6">收藏</span>
+                <span class="collection-icon"></span>
+            </div>
+            <span class="purchase col-xs-6 col-sm-6" v-on:click="placeOrder()">立即下单</span>
         </div>
     </div>
 </template>
@@ -72,7 +74,7 @@
     color:#EE2229;
 }
 .product-details{
-    margin:15px 0 21px 0;
+    margin:15px 0 112px 0;
 }
 .product-details li{
     border-top:1px solid #E5E4E5; 
@@ -82,7 +84,10 @@
     border-bottom:1px solid #E5E4E5;
 }
 .tool-menu{
-    position:relative;
+        position: fixed;
+    width: 100%;
+    bottom: 58px;
+    background-color: #F1EEEE;
 }
 i{
     font-style:normal;
@@ -101,8 +106,9 @@ i{
     cursor:pointer;
 }
 .collection{
-    position:relative;
-    top:13px;
+        position: relative;
+    top: 13px;
+    width: 100%;
 }
 .collection-icon{
     display:inline-block;
@@ -111,7 +117,7 @@ i{
     background:url("../assets/img/collection.png") center bottom no-repeat;
     background-size:80%;
     position:absolute;
-    top:222px;
+    top:0;
     left:81px;
     cursor:pointer;
 }
@@ -155,6 +161,10 @@ export default {
                     var detailPara = {"recordId":_self.$route.params.detailId};
                     commonAjax("/api/productDetails.xhtml",detailPara,"get",getDetailFunc);
                 }, 100);
+            },collectProduct: function() {
+                console.log("collectProduct...");
+            },placeOrder: function() {
+                console.log("placeOrder...");
             }
         }
 }

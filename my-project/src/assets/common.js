@@ -67,3 +67,50 @@ var execute = function(data){
 	data = JSON.parse(data);
 	console.log(data.data);
 }
+
+
+
+//获取请求参数
+function GetRequest() {
+	var url = location.search;
+	var theRequest = new Object();
+	if (url.indexOf("?") != -1) {
+		var str = url.substr(1);
+		strs = str.split("&");
+		for(var i = 0; i < strs.length; i ++) {
+			theRequest[strs[i].split("=")[0]]=decodeURIComponent(strs[i].split("=")[1]);
+		}
+	}
+	return theRequest;
+}
+var Request = new Object();
+Request = GetRequest();
+
+//写cookies
+function setCookie(name,value)
+{
+	$.cookie(name, value, {
+        path: "/", expiress: 1
+    });
+}
+
+//读取cookies
+function getCookie(name)
+{
+	return $.cookie(name);
+}
+
+//删除cookies
+function delCookie(name)
+{
+	$.cookie(name, "", {
+        path: "/", expiress: 1
+    });
+} 
+
+//跳转到首页
+var goIndex = function(){
+	delCookie("email");
+	window.location.href = static_host + "/index.html"
+}
+

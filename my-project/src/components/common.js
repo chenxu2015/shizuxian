@@ -1,4 +1,3 @@
-alert(11);
 var md5key = "testapiprikey";
 /**签名生成并加密**/
 var getFinalParams = function(values){

@@ -23,10 +23,10 @@
                         </router-link>
                     </li>
                     <li class="col-xs-3 col-sm-3 col-md-3 col-lg">
-                        <router-link to="/content/myaccount">
+                        <a href="javascript:;" v-on:click="checkIsLoginFunc()">
                             <i class="iconfont icon-my"></i>
                             <span>我的账户</span>
-                        </router-link>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -34,15 +34,33 @@
     </div>
 </template>
 <script>
+import Vue from 'vue'
 export default {
-    data() {
-        return {
-
+        data() {
+            return {
+            }
+        },
+        created() {
+            this.fetchData()
+        },
+        watch: {
+            
+        },
+        methods: {
+            fetchData() {
+                this.$router.push({ path: '/content/home' });
+            },checkIsLoginFunc(){ 
+                if(!getCookie("userMobilePhone")){
+                    this.$router.push({ path: '../login' });
+                }else{
+                    this.$router.push({ path: '/content/myaccount' });
+                }
+            }
         }
-    }
 }
 </script>
 <style lang="scss" scoped>
+$bgcolor:#51B951;
 .nav-box-bottom li {
     float: left;
     font-size: 12px;
@@ -56,6 +74,9 @@ export default {
     a {
         display: inline-block;
         width: 100%;
+    }
+    .router-link-active{
+        color:$bgcolor;
     }
     i {
         display: block;

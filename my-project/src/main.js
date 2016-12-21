@@ -18,44 +18,55 @@ import myaccount from './components/myaccount.vue'
 import productDetails from './components/product-details.vue'
 import allOrder from './components/all-order.vue'
 import collect from './components/collect.vue'
+import login from './components/login.vue'
+import enterprise from './components/enterprise.vue'
 
 // 创建一个路由器实例
 // 并且配置路由规则
 const router = new VueRouter({
     mode: 'history',
     base: __dirname,
-    routes: [{
-        path: '',
-        component: content
-    }, {
-        path: '/content',
-        component: content,
-        children: [{
+    routes: [
+        {
             path: '',
-            component: home
+            component: content
         }, {
-            path: 'home',
-            component: home
-        }, {
-            path: 'category',
-            component: category
-        }, {
-            path: 'shopping-trolley',
-            component: shoppingTrolley
-        }, {
-            path: 'myaccount',
-            component: myaccount
-        }, {
-            path: 'product-details/:detailId',
-            component: productDetails
-        }, {
-            path: 'all-order',
-            component: allOrder
+            path: '/login',
+            component: login
         },{
-            path: 'collect',
-            component: collect
-        }]
-    }]
+            path: '/content',
+            component: content,
+            children: [{
+                path: '',
+                component: home
+            }, {
+                path: 'home',
+                component: home
+            }, {
+                path: 'category',
+                component: category
+            }, {
+                path: 'shopping-trolley',
+                component: shoppingTrolley
+            }, {
+                path: 'myaccount',
+                component: myaccount
+            }, {
+                path: 'product-details/:detailId',
+                name: 'productDetails',
+                component: productDetails
+            }, {
+                path: 'all-order',
+                component: allOrder
+            }, {
+                path: 'collect',
+                component: collect
+            }, {
+                path: 'enterprise',
+                component: enterprise
+            }]
+        }
+    ]
 })
 
 // 现在我们可以启动应用了！
