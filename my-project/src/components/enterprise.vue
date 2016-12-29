@@ -66,9 +66,11 @@ export default {
                 function applyForFunc(data){
                     data = JSON.parse(data);
                     if(data.isSuccess){
-                        alert("申请成功");
+                        alert("申请已经提交");
                         //申请成功
                         _self.$router.push({ path: '/content/home' });
+                    }else{
+                        alert(data.msg);
                     }
                 }
                 //申请成为企业用户 end

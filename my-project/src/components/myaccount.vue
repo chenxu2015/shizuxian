@@ -39,6 +39,9 @@
         <section class="function-area">
         	<ul class="function-list">
         		<li class="col-xs-3 function-item">
+                    <router-link :to="{path: '/content/collect'}" class="iconfont icon-collect" style="color:rgba(88,153,217,1);">
+                        <span>收藏</span>
+                     </router-link>
         			<img src="../../static/icon/我的账户-收藏.png" />
         			<p>我的收藏</p>
         		</li>

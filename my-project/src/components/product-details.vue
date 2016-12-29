@@ -33,15 +33,16 @@
             </ul>
         </div>
         <div class="tool-menu clearfix">
-            <div style="width: 50%; float: left;" v-on:click="collectProduct()">
-                <span class="collection col-xs-6 col-sm-6">收藏</span>
-                <span class="collection-icon"></span>
+            <div style="width: 50%; float: left;" v-on:click="collectProduct(detailMap.product.recordId)">
+                <span class="collection col-xs-6 col-sm-6" v-bind:class="{ 'text-product-collected': isCollected, 'text-product-collect': !isCollected}">收藏</span>
+                <span class="collection-icon iconfont" v-bind:class="{ 'icon-product-collected': isCollected, 'icon-product-collect': !isCollected}"></span>
             </div>
-            <span class="purchase col-xs-6 col-sm-6" v-on:click="placeOrder()">立即下单</span>
+            <span class="purchase col-xs-6 col-sm-6" v-on:click="addShoppingTrolley(detailMap.product.recordId)">加入购物车</span>
         </div>
     </div>
 </template>
-<style>
+<style lang="scss" scoped>
+$bgcolor:#51B951;
 .swiper-slide {
     background-color: #428bca;
     height: 150px;
@@ -111,15 +112,20 @@ i{
     width: 100%;
 }
 .collection-icon{
-    display:inline-block;
-    height:25px;
-    width:25px;
-    background:url("../assets/img/collection.png") center bottom no-repeat;
-    background-size:80%;
-    position:absolute;
-    top:0;
-    left:81px;
-    cursor:pointer;
+    display: inline-block;
+    height: 25px;
+    width: 25px;
+    position: absolute;
+    top: 2px;
+    left: 81px;
+    cursor: pointer;
+    font-size: 20px;
+}
+.icon-product-collected{
+    color:$bgcolor;
+}
+.text-product-collected{
+    color:$bgcolor;
 }
 </style>
 <script>
@@ -128,7 +134,8 @@ import swiper from 'swiper'
 export default {
     data() {
             return {
-                detailMap:{}
+                detailMap:{},
+                isCollected:false
             }
         },
         created() {
@@ -143,6 +150,7 @@ export default {
         methods: {
             fetchData() {
                 var _self = this;
+                //获取数据详情
                 function getDetailFunc(data){
                     data = JSON.parse(data);
                     if(data.isSuccess){
@@ -157,14 +165,58 @@ export default {
                         alert("获取数据异常");
                     }
                 }
+                //是否被收藏
+                function isCollectedFunc(data){
+                    data = JSON.parse(data);
+                    if(data.isSuccess){
+                        _self.isCollected = true;
+                    }else{
+                        _self.isCollected = false;
+                    }
+                    console.log("isCollected:" + _self.isCollected);
+                }
                 setTimeout(function(){
+                    //获取商品详情
                     var detailPara = {"recordId":_self.$route.params.detailId};
                     commonAjax("/api/productDetails.xhtml",detailPara,"get",getDetailFunc);
+                    //判断是否被收藏
+                    var isCollectedPara = {"api_u_key":getCookie("api_u_key"),"relatedId":_self.$route.params.detailId,"tag":"product"};
+                    commonAjax("/api/collection/isCollected.xhtml",isCollectedPara,"get",isCollectedFunc);
                 }, 100);
-            },collectProduct: function() {
+            },collectProduct: function(relatedId) {
                 console.log("collectProduct...");
-            },placeOrder: function() {
-                console.log("placeOrder...");
+                var _self = this;
+                function collectProductFunc(data){
+                    data = JSON.parse(data);
+                    if(_self.isCollected){
+                        _self.isCollected = false;
+                    }else{
+                        _self.isCollected = true;
+                    }
+                }
+                setTimeout(function(){
+                    var collectProductPara = {"api_u_key":getCookie("api_u_key"),"tag":"product","relatedId":relatedId};
+                    if(_self.isCollected){
+                        commonAjax("/api/collection/cancelCollection.xhtml",collectProductPara,"get",collectProductFunc);
+                    }else{
+                        commonAjax("/api/collection/addCollection.xhtml",collectProductPara,"get",collectProductFunc);
+                    }
+                }, 100);
+            },addShoppingTrolley: function(recordId) {
+                console.log("加入购物车...");
+                console.log("recordId:" + recordId);
+                //增加购物车 start
+                function categoryAddShoppingTrolleyFunc(data){
+                    data = JSON.parse(data);
+                    if(data.isSuccess){
+                        alert("已添加到购物车");   
+                    }
+                }
+                //增加购物车 end
+                setTimeout(function(){
+                    var categoryAddShoppingTrolleyPara = {"api_u_key":getCookie("api_u_key"),"tag":"product","relateId":recordId,"number":1};
+                    commonAjax("/api/buycar/addbuycar.xhtml",categoryAddShoppingTrolleyPara,"get",categoryAddShoppingTrolleyFunc);
+                },100);
             }
         }
 }

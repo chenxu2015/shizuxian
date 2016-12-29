@@ -99,134 +99,39 @@ $bgcolor:#51B951;
     </section>
     <section class="category-list-box" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
         <!--media start-->
-        <div class="media">
+        <div class="media" v-for="(buycarObj, index) in buycarListMap.list">
             <section>
-                <div class="media-left fuxuankuang-box"  v-on:click="checkedBuycar(3)">
-                    <i class="iconfont icon-fuxuankuang" v-bind:class="{ active: isActive }"></i>
+                <div class="media-left fuxuankuang-box"  v-on:click="checkedBuycar(buycarObj.recordId,index,buycarObj.status)">
+                    <i class="iconfont" v-bind:class="{ 'icon-fuxuankuang': buycarObj.status == 'checked', 'icon-yuanquan': buycarObj.status != 'checked'}"></i>
                 </div>
                 <a class="media-left" href="#">
-                    <img src="../assets/img/meinv1.jpg" alt="../assets/img/meinv1.jpg">
+                     <img :src="buycarListMap.basePic + buycarListMap.pmap[buycarObj.relateId].logoUri" />
                 </a>
                 <div class="media-body">
-                    <router-link :to="{name: 'productDetails', params: {detailId: 55}}" class="media-heading" style="display:block;">
-    		    	    红彩椒250g（250g/份）
+                    <router-link :to="{name: 'productDetails', params: {detailId: buycarListMap.pmap[buycarObj.relateId].recordId}}" class="media-heading" style="display:block;">
+    		    	    {{buycarListMap.pmap[buycarObj.relateId].title}}
     		        </router-link>
-                    <span style="color:red;">$5.95</span>
+                    <span style="color:red;">{{buycarListMap.pmap[buycarObj.relateId].price}}</span>
                 </div>
             </section>
             <section class="action-box">
-                <i class="iconfont icon-yuanquanjianhao" v-on:click="reduceBuycar(5)"></i>
-                <span>2</span>
-                <i class="iconfont icon-yuanquanjiahao" v-on:click="addBuycar(6)"></i>
+                <i class="iconfont icon-yuanquanjianhao" v-on:click="reduceBuycar(index)"></i>
+                <span>{{buycarObj.number}}</span>
+                <i class="iconfont icon-yuanquanjiahao" v-on:click="addBuycar(index)"></i>
             </section>
         </div>
         <!--media end-->
-        <div class="media">
-            <div class="media-left fuxuankuang-box">
-                <i class="iconfont icon-yuanquan"></i>
-            </div>
-            <a class="media-left" href="#">
-                <img src="../assets/img/meinv2.jpg" alt="../assets/img/meinv2.jpg">
-            </a>
-            <div class="media-body">
-                <h4 class="media-heading">
-		    	红彩椒250g（250g/份）
-		    </h4>
-                <span style="color:red;">$5.95</span>
-            </div>
-            <section class="action-box">
-                <i class="iconfont icon-yuanquanjianhao"></i>
-                <span>2</span>
-                <i class="iconfont icon-yuanquanjiahao"></i>
-            </section>
-        </div>
-        <div class="media">
-            <div class="media-left fuxuankuang-box">
-                <i class="iconfont icon-fuxuankuang"></i>
-            </div>
-            <a class="media-left" href="#">
-                <img src="../assets/img/meinv4.jpg" alt="../assets/img/meinv2.jpg">
-            </a>
-            <div class="media-body">
-                <h4 class="media-heading">
-		    	红彩椒250g（250g/份）
-		    </h4>
-                <span style="color:red;">$5.95</span>
-            </div>
-            <section class="action-box">
-                <i class="iconfont icon-yuanquanjianhao"></i>
-                <span>2</span>
-                <i class="iconfont icon-yuanquanjiahao"></i>
-            </section>
-        </div>
-        <div class="media">
-            <div class="media-left fuxuankuang-box">
-                <i class="iconfont icon-fuxuankuang"></i>
-            </div>
-            <a class="media-left" href="#">
-                <img src="../assets/img/meinv4.jpg" alt="../assets/img/meinv2.jpg">
-            </a>
-            <div class="media-body">
-                <h4 class="media-heading">
-		    	红彩椒250g（250g/份）
-		    </h4>
-                <span style="color:red;">$5.95</span>
-            </div>
-            <section class="action-box">
-                <i class="iconfont icon-yuanquanjianhao"></i>
-                <span>2</span>
-                <i class="iconfont icon-yuanquanjiahao"></i>
-            </section>
-        </div>
-        <div class="media">
-            <div class="media-left fuxuankuang-box">
-                <i class="iconfont icon-yuanquan"></i>
-            </div>
-            <a class="media-left" href="#">
-                <img src="../assets/img/meinv6.jpg" alt="../assets/img/meinv2.jpg">
-            </a>
-            <div class="media-body">
-                <h4 class="media-heading">
-		    	红彩椒250g（250g/份）
-		    </h4>
-                <span style="color:red;">$5.95</span>
-            </div>
-            <section class="action-box">
-                <i class="iconfont icon-yuanquanjianhao"></i>
-                <span>2</span>
-                <i class="iconfont icon-yuanquanjiahao"></i>
-            </section>
-        </div>
-        <div class="media">
-            <div class="media-left fuxuankuang-box">
-                <i class="iconfont icon-fuxuankuang"></i>
-            </div>
-            <a class="media-left" href="#">
-                <img src="../assets/img/meinv2.jpg" alt="../assets/img/meinv2.jpg">
-            </a>
-            <div class="media-body">
-                <h4 class="media-heading">
-		    	红彩椒250g（250g/份）
-		    </h4>
-                <span style="color:red;">$5.95</span>
-            </div>
-            <section class="action-box">
-                <i class="iconfont icon-yuanquanjianhao"></i>
-                <span>2</span>
-                <i class="iconfont icon-yuanquanjiahao"></i>
-            </section>
-        </div>
         <div class="media statistics-box">
             <div class="media-left fuxuankuang-box">
-                <i class="iconfont icon-fuxuankuang"></i>
+                <i class="iconfont icon-fuxuankuang" v-on:click="allCheckedBuycar()"></i>
             </div>
             <a class="media-left all-checked" href="javascript:;" v-on:click="allCheckedBuycar()">
                 全选
             </a>
             <div class="media-body  price-box">
-                <div class="discount"><span>优惠：</span><span class="money">22.2</span></div>
-                <div class="count"><span>商品总额：</span><span class="money">22.2</span></div>
-                <div class="after-discount"><span>折后总价：</span><span class="money">22.2</span></div>
+                <div class="discount"><span>优惠：</span><span class="money">{{productPriceObj.preferentialPrice}}</span></div>
+                <div class="count"><span>商品总额：</span><span class="money">{{productPriceObj.productTotalPrice}}</span></div>
+                <div class="after-discount"><span>折后总价：</span><span class="money">{{productPriceObj.saleTotalPrice}}</span></div>
             </div>
             <div class="settle-accounts-box" v-on:click="payBuycar()">结算</div>
         </div>
@@ -244,7 +149,8 @@ Vue.use(VueInfiniteScroll)
 export default {
     	data() {
             return {
-                
+                buycarListMap:{},
+                productPriceObj:{}
             }
         },
         created() {
@@ -263,7 +169,21 @@ export default {
                 function getBuycarListMapFunc(data){
                     data = JSON.parse(data);
                     if(data.isSuccess){
-                        _self.buycarListMap = data.data;
+                        var buycarListMap = data.data;
+                        for(var i in buycarListMap.list){
+                            console.log(buycarListMap.pmap[buycarListMap.list[i].relateId]);
+                            if(!buycarListMap.pmap[buycarListMap.list[i].relateId]){
+                                buycarListMap.list.splice(i,1);
+                            }
+                        }
+                        for(var i in buycarListMap.list){
+                            console.log(buycarListMap.pmap[buycarListMap.list[i].relateId]);
+                            if(!buycarListMap.pmap[buycarListMap.list[i].relateId]){
+                                buycarListMap.list.splice(i,1);
+                            }
+                        }
+                        _self.buycarListMap = buycarListMap;
+                        _self.calculateBuycarMoney();
                     }
                 }
                 //获得购物车列表 end
@@ -279,55 +199,80 @@ export default {
             },calculateBuycarMoney: function(){
                 //计算统计优惠价格
                 console.log("calculateBuycarMoney");
-            },addBuycar: function(relateId){
-                console.log("addBuycar" + relateId);
                 var _self = this;
+                var productTotalPrice = 0;
+                for(var i in _self.buycarListMap.list){
+                    if(!_self.buycarListMap.pmap[_self.buycarListMap.list[i].relateId]){
+                        _self.buycarListMap.list.splice(i,1);
+                    }
+                    productTotalPrice+=(_self.buycarListMap.pmap[_self.buycarListMap.list[i].relateId].price * _self.buycarListMap.list[i].number)
+                }
+                _self.productPriceObj.productTotalPrice = productTotalPrice.toFixed(1);
+                _self.productPriceObj.saleTotalPrice = (productTotalPrice * 0.8).toFixed(1);
+                _self.productPriceObj.preferentialPrice = (_self.productPriceObj.productTotalPrice - _self.productPriceObj.saleTotalPrice).toFixed(1);
+            },addBuycar: function(index){
+                var _self = this;
+                var buycarObj = _self.buycarListMap.list[index];
+                var recordId = buycarObj.recordId;
+                var number = buycarObj.number;
                  //增加货物到购物车 start
                 function addbuycarMapFunc(data){
                     data = JSON.parse(data);
                     if(data.isSuccess){
-                        _self.buycarListMap = data.data;
+                        buycarObj.number = (number + 1);
                         _self.calculateBuycarMoney();
                     }
                 }
                 //增加货物到购物车 end
                 setTimeout(function(){
                     //增加货物到购物车
-                    var addbuycarMapPara = {"api_u_key":0,"tag":0,"relateId":12,"number":3};
-                    commonAjax("/api/buycar/updatebuycar.xhtml",addbuycarMapPara,"get",addbuycarMapFunc);
+                    var addbuycarMapPara = {"api_u_key":getCookie("api_u_key"),"tag":"product","relateId":recordId,"number":1};
+                    commonAjax("/api/buycar/addbuycar.xhtml",addbuycarMapPara,"get",addbuycarMapFunc);
                 }, 100);
-            },reduceBuycar: function(relateId){
-                console.log("reduceBuycar" + relateId);
+            },reduceBuycar: function(index){
                 var _self = this;
-                 //减少货物到购物车 start
+                var buycarObj = _self.buycarListMap.list[index];
+                var recordId = buycarObj.recordId;
+                var number = buycarObj.number;
+                 //增加货物到购物车 start
                 function reducebuycarMapFunc(data){
                     data = JSON.parse(data);
                     if(data.isSuccess){
-                        _self.buycarListMap = data.data;
-                         _self.calculateBuycarMoney();
+                        buycarObj.number = (number - 1);
+                        _self.calculateBuycarMoney();
                     }
                 }
-                //减少货物到购物车 end
-                setTimeout(function(){
-                    //增加货物到购物车
-                    var reducebuycarMapPara = {"api_u_key":0,"relateId":12,"status":3,"number":5};
-                    commonAjax("/api/buycar/updatebuycar.xhtml",reducebuycarMapPara,"get",reducebuycarMapFunc);
-                }, 100);
-            },checkedBuycar: function(relateId){
+                //增加货物到购物车 end
+                if(number >= 1){
+                    setTimeout(function(){
+                        //增加货物到购物车
+                        var reducebuycarMapPara = {"api_u_key":getCookie("api_u_key"),"tag":_self.buycarListMap.list[index].tag,"relateId":recordId,"number":(number - 1)};
+                        commonAjax("/api/buycar/updatebuycar.xhtml",reducebuycarMapPara,"get",reducebuycarMapFunc);
+                    }, 100);
+                }
+            },checkedBuycar: function(relateId,index,status){
                 console.log("checkedBuycar" + relateId);
+                 console.log("index" + index);
+                  console.log("status" + status);   
                 var _self = this;
-                 //减少货物到购物车 start
+                console.log("--:" +_self.buycarListMap);
+                 //选中购物车 start
                 function checkedBuycarMapFunc(data){
                     data = JSON.parse(data);
                     if(data.isSuccess){
-                        _self.buycarListMap = data.data;
                          _self.calculateBuycarMoney();
                     }
                 }
-                //减少货物到购物车 end
+
+                //选中购物车 end
                 setTimeout(function(){
-                    //增加货物到购物车
-                    var checkedBuycarMapPara = {"api_u_key":0,"relateId":12,"status":3,"number":5};
+                    var mystatus = status == "checked" ? "unchecked" : "checked";
+                    console.log("mystatus:" + mystatus);
+                    console.log("_self.buycarListMap:" + _self.buycarListMap);
+                    console.log("_self.buycarListMap.list:" + _self.buycarListMap.list);
+                    _self.buycarListMap.list[index].status = mystatus;
+                    //选中购物车
+                    var checkedBuycarMapPara = {"api_u_key":getCookie("api_u_key"),"recordId":relateId,"status":mystatus,"number":_self.buycarListMap.list[index].number};
                     commonAjax("/api/buycar/updatebuycar.xhtml",checkedBuycarMapPara,"get",checkedBuycarMapFunc);
                 }, 100);
             },allCheckedBuycar: function(){
@@ -337,15 +282,17 @@ export default {
                 function allCheckedBuycarMapFunc(data){
                     data = JSON.parse(data);
                     if(data.isSuccess){
-                        _self.buycarListMap = data.data;
-                         _self.calculateBuycarMoney();
+                        for(var i in _self.buycarListMap.list){
+                            _self.buycarListMap.list[i].status = "checked";
+                        }
+                        _self.calculateBuycarMoney();
                     }
                 }
                 //全选购物车 end
                 setTimeout(function(){
                     //增加货物到购物车
-                    var allCheckedBuycarMapPara = {"api_u_key":0,"relateId":12,"status":3,"number":5};
-                    commonAjax("/api/buycar/updatebuycar.xhtml",allCheckedBuycarMapPara,"get",allCheckedBuycarMapFunc);
+                    var allCheckedBuycarMapPara = {"api_u_key":getCookie("api_u_key"),"status":"Y"};
+                    commonAjax("/api/buycar/checkAll.xhtml",allCheckedBuycarMapPara,"get",allCheckedBuycarMapFunc);
                 }, 100);
             },goProductDetail: function(){
                 console.log("goProductDetail");
@@ -380,6 +327,8 @@ export default {
                     var payBuyCarMapPara = {};
                     commonAjax("/api/order/payBuyCar.xhtml",payBuyCarMapPara,"get",payBuyCarMapFunc);
                 }, 100);
+            },alertHandleClick: function() {
+              console.log(12);
             }
         }
 }
