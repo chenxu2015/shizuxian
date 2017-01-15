@@ -95,7 +95,7 @@ $bgcolor:#51B951;
 <template>
   <div id="firstcomponent" style="padding-bottom:75px;">
     <section class="search-box">
-        购物车
+        订单结算
     </section>
     <section class="category-list-box" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
         <!--media start-->

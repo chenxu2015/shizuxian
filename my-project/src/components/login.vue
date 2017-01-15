@@ -47,7 +47,8 @@ $bgcolor:#51B951;
        <section class="title">用户登录</section>
        <section class="form-box">
        	 	<div>手机号：<input type="number" v-model="mobilePhone" placeholder="输入手机号码" /></div> 
-       	 	<div>验证码：<input type="input" v-model="captcha" placeholder="输入右侧字母" /><img data-act="captcha" src="" width="100px;"/><i class="iconfont icon-refresh-icon"></i></div> 
+       	 	<div>验证码：<input type="input" v-model="captcha" placeholder="输入右侧字母" />
+            <img data-act="captcha" src="" width="100px;"/><i class="iconfont icon-refresh-icon" v-on:click="getCaptchaPicFunc()"></i></div> 
        	 	<div>校验码：<input type="number" v-model="mobileCheckCode" placeholder="输入短信校验码" />
 						<button class="btn btn-success" v-on:click="getMobileCheckCode()">获取验证码</button>
        	 	</div> 
@@ -80,28 +81,7 @@ export default {
             fetchData() {
                 var _self = this;
                 //获取验证码 start
-                function getCaptchaIdFunc(data){
-                    data = JSON.parse(data);
-                    if(data.isSuccess){
-	                    //获取验证码图片
-	                     _self.captchaId = data.data.captchaId;
-	                     $("[data-act=captcha]").attr("src","http://139.224.65.231/resurgam/captcha.xhtml?captchaId=" + _self.captchaId);
-                    }
-                }
-                //获取验证码 end
-                //获取验证码图片 start
-                // function getCaptchaPicFunc(data){
-                //     data = JSON.parse(data);
-                //     if(data.isSuccess){
-                //     }
-                // }
-                //获取验证码图片 end
-
-                setTimeout(function(){
-                	//获取验证码 start
-                    var captchaIdPara = {};
-                    commonAjax("/api/getCaptchaId.xhtml",captchaIdPara,"get",getCaptchaIdFunc);
-                }, 300);
+                _self.getCaptchaPicFunc();
                
             },getMobileCheckCode(){
             	var _self = this;
@@ -131,6 +111,25 @@ export default {
                 }
             },closeLoginPageFunc(){
             	this.$router.push({ path: '/content/home' });
+            },getCaptchaPicFunc(){
+                var _self = this;
+                function getCaptchaIdFunc(data){
+                    data = JSON.parse(data);
+                    if(data.isSuccess){
+                        //获取验证码图片
+                         _self.captchaId = data.data.captchaId;
+                         // var loginPrex = "http://139.224.65.231/resurgam";
+                         // var loginPrex = "http://admin.shizux.com";
+                         console.log("测试前缀地址urlPrefix：" + urlPrefix);
+                         $("[data-act=captcha]").attr("src",urlPrefix + "/captcha.xhtml?captchaId=" + _self.captchaId);
+                    }
+                }
+                //获取验证码 end
+                setTimeout(function(){
+                    //获取验证码 start
+                    var captchaIdPara = {};
+                    commonAjax("/api/getCaptchaId.xhtml",captchaIdPara,"get",getCaptchaIdFunc);
+                }, 300);
             }
         }
 }

@@ -6,7 +6,12 @@ $bgcolor:#51B951;
         font-size:16px;color:white;float:left;margin-left:10px; 
     }
     ul.dropdown-menu{
-        position:fixed;top:46px;max-height:calc(100% - 110px);overflow:hidden;overflow-y:auto;
+        position: fixed;
+        top: 47px;
+        max-height: calc(100% - 110px);
+        overflow: hidden;
+        overflow-y: auto;
+        border-radius: 0;
     }
     .index-title-box{
         border-bottom:1px solid #dcdddd;font-size:16px;padding:8px 10px;color:$bgcolor;
@@ -52,16 +57,17 @@ $bgcolor:#51B951;
 <template>
     <div id="firstcomponent" class="container" style="padding:0;padding-bottom:60px;">
         <section class="position-title-box">
-            <div class="btn-group pull-left">
+            <!--选择的城市 start-->
+            <!-- <div class="btn-group pull-left">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                  上海
-                  <span class="iconfont icon-position"></span>
+                  <span id="current-position">上海市</span><span class="iconfont icon-position"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
-                  <li v-for="indexCityDataPro in indexCityDataMap.pro"><a href="javascript:;" v-on:click="chooseCityFunc(indexCityDataPro.recordId)">{{indexCityDataPro.name}}</a></li>
+                  <li v-for="proviceObj in proviceList"><a href="javascript:;" v-on:click="chooseCityFunc(proviceObj.recordId,proviceObj.name)">{{proviceObj.name}}</a></li>
                 </ul>
-            </div>
-          <span style="color:white;font-size:22px;margin-left:-50px;">十足鲜</span>
+            </div> -->
+            <!--选择的城市 end-->
+          <span style="color:white;font-size:22px;">十足鲜</span>
         </section>  
         <div class="swiper-container">
             <div class="swiper-wrapper">
@@ -86,7 +92,7 @@ $bgcolor:#51B951;
                 </router-link>
             </li>
             <li class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                <router-link :to="{path: '/content/all-order'}" class="iconfont icon-recharge" style="color:rgba(79,205,204,1);">
+                <router-link :to="{path: '/content/recharge'}" class="iconfont icon-recharge" style="color:rgba(79,205,204,1);">
                     <span>充值</span>
                 </router-link>
             </li>
@@ -143,7 +149,7 @@ export default {
                 indexTopreMap:{},
                 indexSettimeMap:{},
                 indexHotSaleMap:{},
-                indexCityDataMap:{}
+                proviceList:[]
             }
         },
         created() {
@@ -192,14 +198,6 @@ export default {
                         _self.indexHotSaleMap = data.data;
                     }
                 }
-                 //获取首页的地址列表 start
-                function getIndexCityDataFunc(data){
-                    data = JSON.parse(data);
-                    if(data.isSuccess){
-                        _self.indexCityDataMap = data.data;
-                    }
-                }
-                //获取首页限时推荐 end
                 setTimeout(function(){
                     var indexToprePara = {"maxNum":3};
                     commonAjax("/api/getIndexTopre.xhtml",indexToprePara,"get",getIndexTopre);
@@ -207,8 +205,16 @@ export default {
                     commonAjax("/api/getRecomondationQianggou.xhtml",indexSettimeMapPara,"get",getIndexSettingMapFunc);
                     var indexHotSaleMapPara = {"pageNo":0,"maxNum":9};
                     commonAjax("/api/getRecomondationRemai.xhtml",indexHotSaleMapPara,"get",indexHotSaleMapFunc);
-                    var indexCityDataPara = {};
-                    commonAjax("/api/getCityData.xhtml",indexCityDataPara,"get",getIndexCityDataFunc);
+                     //获得所有省 start
+                    var getAllProDataPara = {"type":"pro"};
+                    commonAjax("/api/getAllCityData.xhtml",getAllProDataPara,"get",function(data){
+                        data = JSON.parse(data);
+                        if(data.isSuccess){
+                            console.log("已获得所有省");
+                            _self.proviceList = data.data.proviceList;
+                        }
+                    });
+                    //获得所有省 end
                 }, 100);
             },
             loadMore: function() {
@@ -218,9 +224,8 @@ export default {
                     
                     this.busy = false;
                 }, 1000);
-            },chooseCityFunc:function(recordId){
-                console.log("recordId:" + recordId
-                    );
+            },chooseCityFunc:function(recordId,name){
+                $("#current-position").text(name);
             }
         }
 }

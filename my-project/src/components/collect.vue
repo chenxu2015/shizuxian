@@ -1,11 +1,20 @@
 <style lang="scss" scoped>
 $bgcolor:#51B951;
 .search-box{
-	background-color:#51B951;
+	background-color:$bgcolor;
 	padding:12px;
-	text-align: center;
-	font-size:16px;
-	color:#fff;
+	input{
+	    padding: 6px 12px;
+	    width: calc(100% - 60px);
+	    border: 1px solid #51D851;
+	    border-radius: 12px;
+	    background-color: rgba(255,255,255,0.8);
+	}
+	.search-button{
+		color:#fff;
+		font-size:18px;
+		margin-left:12px;
+	}
 }
 .filter-condition{
 	padding:0;
@@ -37,100 +46,38 @@ $bgcolor:#51B951;
 			height:80px;
 		}
 		margin-top:16px;
-		padding:0 16px 16px 16px;
+		padding:0 40px 16px 16px;
 		border-bottom:1px solid #dcdddd;
 		position:relative;
-		.go-pay-btn{
+		.icon-shopping-add{
 			color:$bgcolor;
-			font-size:16px;
+			font-size:26px;
 			position:absolute;
-			bottom:8px;
-			right:16px;
-			padding:4px 10px;
-			border:#bbb 1px solid;
-			background-color:#eee;
-			border-radius:4px;
+			bottom:4px;
+			right:14px;
 		}
 	}
 }
 </style>
 <template>
   <div id="secondcomponent">
-     <section class="search-box">
-      我的收藏
-    </section>
+     <section class="search-box" style="color:#fff;text-align:center;font-size:16px;">
+     	我的收藏
+     </section>
      <section class="category-list-box" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
-        <div class="media">
-		  <a class="media-left" href="#">
-		    <img src="../assets/img/meinv1.jpg" alt="../assets/img/meinv1.jpg">
-		  </a>
-		  <div class="media-body">
-		    <h4 class="media-heading">
-		    	红彩椒250g（250g/份）
-		    </h4>
-		    <span style="color:red;">$5.95</span>
-		  </div>
-		  <button type="button" class="go-pay-btn">立即购买</button>
-		</div>
-		<div class="media">
-		  <a class="media-left" href="#">
-		    <img src="../assets/img/meinv1.jpg" alt="../assets/img/meinv1.jpg">
-		  </a>
-		  <div class="media-body">
-		    <h4 class="media-heading">
-		    	红彩椒250g（250g/份）
-		    </h4>
-		    <span style="color:red;">$5.95</span>
-		  </div>
-		  <button type="button" class="go-pay-btn">立即购买</button>
-		</div>
-		<div class="media">
-		  <a class="media-left" href="#">
-		    <img src="../assets/img/meinv1.jpg" alt="../assets/img/meinv1.jpg">
-		  </a>
-		  <div class="media-body">
-		    <h4 class="media-heading">
-		    	红彩椒250g（250g/份）
-		    </h4>
-		    <span style="color:red;">$5.95</span>
-		  </div>
-		  <button type="button" class="go-pay-btn">立即购买</button>
-		</div>
-		<div class="media">
-		  <a class="media-left" href="#">
-		    <img src="../assets/img/meinv1.jpg" alt="../assets/img/meinv1.jpg">
-		  </a>
-		  <div class="media-body">
-		    <h4 class="media-heading">
-		    	红彩椒250g（250g/份）
-		    </h4>
-		    <span style="color:red;">$5.95</span>
-		  </div>
-		  <button type="button" class="go-pay-btn">立即购买</button>
-		</div>
-		<div class="media">
-		  <a class="media-left" href="#">
-		    <img src="../assets/img/meinv1.jpg" alt="../assets/img/meinv1.jpg">
-		  </a>
-		  <div class="media-body">
-		    <h4 class="media-heading">
-		    	红彩椒250g（250g/份）
-		    </h4>
-		    <span style="color:red;">$5.95</span>
-		  </div>
-		  <button type="button" class="go-pay-btn">立即购买</button>
-		</div>
-		<div class="media">
-		  <a class="media-left" href="#">
-		    <img src="../assets/img/meinv1.jpg" alt="../assets/img/meinv1.jpg">
-		  </a>
-		  <div class="media-body">
-		    <h4 class="media-heading">
-		    	红彩椒250g（250g/份）
-		    </h4>
-		    <span style="color:red;">$5.95</span>
-		  </div>
-		  <button type="button" class="go-pay-btn">立即购买</button>
+        <div class="media" v-for="categoryIndex in categoryIndexMap">
+          <router-link :to="{name: 'productDetails', params: {detailId: categoryIndex.recordId}}" style="display:block;">
+			  <a class="media-left" href="javascript:;">
+			    <img :src="'http://likezu-test.oss-cn-shanghai.aliyuncs.com/' + categoryIndex.logoUri">
+			  </a>
+			  <div class="media-body">
+			    <h4 class="media-heading">
+			    	{{categoryIndex.title}}
+			    </h4>
+			    <span style="color:red;">{{categoryIndex.price}}</span>
+			  </div>
+          </router-link>
+		  <i class="iconfont icon-shopping-add" v-on:click="shoppingAddTrolley(categoryIndex.recordId)"></i>
 		</div>
       </section>
   </div>
@@ -145,7 +92,11 @@ Vue.use(VueInfiniteScroll)
 export default {
     	data() {
             return {
-                
+                categoryIndexMap:{},
+                categoryCityDataMap:{},
+                allFishPortParaMap:{},
+                categoryMap:{},
+                search_keyword:""
             }
         },
         created() {
@@ -159,12 +110,41 @@ export default {
         },
         methods: {
             fetchData() {
-                
-                
+            	console.log(123);
+            	var _self = this;
+                //获取主页的数据 start
+                function getCategoryIndexMapFunc(data){
+                    data = JSON.parse(data);
+                    if(data.isSuccess){
+                        _self.categoryIndexMap = data.data.result;
+                    }
+                }
+                //获取主页的数据 end
+                setTimeout(function(){
+                	console.log(1233);
+                	//获得首页数据，作为分类页面数据
+                	console.log("---"+getCookie("api_u_key"));
+                    var categoryIndexMapPara = {"api_u_key":getCookie("api_u_key"),"pageNo":0,"maxNum":100,"tag":"product"};
+                    commonAjax("/api/collection/ListCollection.xhtml",categoryIndexMapPara,"get",getCategoryIndexMapFunc);
+                }, 100);
             },
             loadMore: function() {
                 console.log("loadMore category...");
                 this.busy = true;
+            },shoppingAddTrolley:function(recordId){
+                console.log("recordId:" + recordId);
+                //增加购物车 start
+                function categoryAddShoppingTrolleyFunc(data){
+                    data = JSON.parse(data);
+                    if(data.isSuccess){
+                        alert("已添加到购物车");   
+                    }
+                }
+                //增加购物车 end
+                setTimeout(function(){
+                    var categoryAddShoppingTrolleyPara = {"api_u_key":getCookie("api_u_key"),"tag":"product","relateId":recordId,"number":1};
+                    commonAjax("/api/buycar/addbuycar.xhtml",categoryAddShoppingTrolleyPara,"get",categoryAddShoppingTrolleyFunc);
+                },100);
             }
         }
 }

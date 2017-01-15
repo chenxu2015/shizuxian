@@ -20,11 +20,16 @@ import allOrder from './components/all-order.vue'
 import collect from './components/collect.vue'
 import login from './components/login.vue'
 import enterprise from './components/enterprise.vue'
+import address from './components/address.vue'
+import addAddress from './components/add-address.vue'
+import recharge from './components/recharge.vue'
+import evaluate from './components/evaluate.vue'
+import mppay from './components/mppay.vue'
 
 // 创建一个路由器实例
 // 并且配置路由规则
 const router = new VueRouter({
-    mode: 'history',
+    mode: 'hash',
     base: __dirname,
     routes: [
         {
@@ -64,11 +69,28 @@ const router = new VueRouter({
             }, {
                 path: 'enterprise',
                 component: enterprise
+            }, {
+                path: 'address',
+                component: address
+            }, {
+                path: 'add-address',
+                component: addAddress
+            }, {
+                path: 'recharge',
+                component: recharge
+            }, {
+                path: 'evaluate/:detailId',
+                name:'evaluateDetails',
+                component: evaluate
+            }, {
+                path: 'mppay',
+                component: mppay
             }]
         }
     ]
 })
 
+console.log("测试一下");
 // 现在我们可以启动应用了！
 // 路由器会创建一个 App 实例，并且挂载到选择符 #app 匹配的元素上。
 const app = new Vue({

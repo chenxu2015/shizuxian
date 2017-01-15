@@ -67,18 +67,18 @@ $bgcolor:#51B951;
 		    <span class="search-button" v-on:click="categoryFilterByKeyword()">搜索</span>
 		</form>
      </section>
-     <section class="filter-condition">
-     	<div class="btn-group">
-		  <div class="btn-group">
+     <section class="filter-condition container">
+     	<div class="btn-group row">
+		  <div class="btn-group col-xs-4 col-sm-4 col-md-4">
 		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 		      城市
 		      <span class="iconfont icon-xialajiantou-shen"></span>
 		    </button>
 		    <ul class="dropdown-menu" role="menu">
-		      <li><a href="javascript:;" v-for="categoryCity in categoryCityDataMap.pro" v-on:click="categoryFilterByCity(categoryCity.recordId)">{{categoryCity.name}}</a></li>
+		      <li><a href="javascript:;" v-for="provice in proviceList" v-on:click="categoryFilterByCity(provice.recordId)">{{provice.name}}</a></li>
 		    </ul>
 		  </div>
-		  <div class="btn-group">
+		  <div class="btn-group col-xs-4 col-sm-4 col-md-4">
 		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 		      分类
 		      <span class="iconfont icon-xialajiantou-shen"></span>
@@ -87,7 +87,7 @@ $bgcolor:#51B951;
 		      <li><a href="javascript:;" v-for="categoryObj in categoryMap.cateList" v-on:click="categoryFilterByCategory(categoryObj.recordId)">{{categoryObj.name}}</a></li>
 		    </ul>
 		  </div>
-		  <div class="btn-group">
+		  <div class="btn-group col-xs-4 col-sm-4 col-md-4">
 		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 		      渔港
 		      <span class="iconfont icon-xialajiantou-shen"></span>
@@ -130,7 +130,8 @@ export default {
                 categoryCityDataMap:{},
                 allFishPortParaMap:{},
                 categoryMap:{},
-                search_keyword:""
+                search_keyword:"",
+                proviceList:[]
             }
         },
         created() {
@@ -191,13 +192,22 @@ export default {
                     //获取鱼港里码表
                     var allFishPortPara = {};
                     commonAjax("/api/getAllFishPort.xhtml",allFishPortPara,"get",getAllFishPortParaMapFunc);
+                    //获得所有省 start
+                    var getAllProDataPara = {"type":"pro"};
+                    commonAjax("/api/getAllCityData.xhtml",getAllProDataPara,"get",function(data){
+                        data = JSON.parse(data);
+                        if(data.isSuccess){
+                            console.log("已获得所有省");
+                            _self.proviceList = data.data.proviceList;
+                        }
+                    });
+                    //获得所有省 end
                 }, 100);
             },
             loadMore: function() {
                 console.log("loadMore category...");
                 this.busy = true;
-            },categoryFilterByCity: function(city){
-            	console.log("city:" + city);
+            },categoryFilterByCity: function(proId){
                 var _self = this;
             	//获取主页的数据 筛选城市 start
                 function getCategoryIndexMapByCityFunc(data){
@@ -211,7 +221,7 @@ export default {
                 //获取主页的数据  筛选城市 end
             	//获得首页数据，作为分类页面数据，并且用城市筛选
             	setTimeout(function(){
-	                var categoryIndexMapByCityPara = {"cityId":city};
+	                var categoryIndexMapByCityPara = {"proId":proId};
 	                commonAjax("/api/index.xhtml",categoryIndexMapByCityPara,"get",getCategoryIndexMapByCityFunc);
             	},100);
             },categoryFilterByCategory: function(category){
@@ -232,8 +242,8 @@ export default {
 	                var categoryIndexMapByCategoryPara = {"proCateId":category};
 	                commonAjax("/api/index.xhtml",categoryIndexMapByCategoryPara,"get",getCategoryIndexMapByCategoryFunc);
             	},100);
-            },categoryFilterByFishPort: function(fishPort){
-            	console.log("FishPort:" + fishPort);
+            },categoryFilterByFishPort: function(fishPortId){
+            	console.log("FishPort:" + fishPortId);
             	//获取主页的数据 筛选城市 start
                 var _self = this;
                 function getCategoryIndexMapByFishPortFunc(data){
@@ -245,7 +255,7 @@ export default {
                 //获取主页的数据  筛选城市 end
             	//获得首页数据，作为分类页面数据，并且用城市筛选
             	setTimeout(function(){
-	                var categoryIndexMapByFishPortPara = {"cityId":0};
+	                var categoryIndexMapByFishPortPara = {"proTypeId":fishPortId};
 	                commonAjax("/api/index.xhtml",categoryIndexMapByFishPortPara,"get",getCategoryIndexMapByFishPortFunc);
             	},100);
             },categoryFilterByKeyword:function(){
@@ -263,6 +273,7 @@ export default {
                     //获取主页的数据  根据关键字 end
                     //获得首页数据，作为分类页面数据，根据关键字
                     setTimeout(function(){
+                        // console.log(decodeURI(_self.search_keyword) + "=======_self.search_keyword=======" + encodeURIComponent(_self.search_keyword));
                         var getCategoryIndexMapByKeywordPara = {"searchKey":_self.search_keyword};
                         commonAjax("/api/index.xhtml",getCategoryIndexMapByKeywordPara,"get",getCategoryIndexMapByKeywordFunc);
                     },100);
@@ -273,6 +284,8 @@ export default {
                     data = JSON.parse(data);
                     if(data.isSuccess){
                         alert("已添加到购物车");   
+                    }else{
+                        alert("请确认已登录");
                     }
                 }
                 //增加购物车 end

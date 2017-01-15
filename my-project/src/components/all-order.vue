@@ -33,12 +33,12 @@ $bgcolor:#51B951;
 	padding-bottom:58px;
 	.media{
 		img{
-			width:80px;
-			height:80px;
+			width:60px;
+			height:60px;
 		}
 		margin-top:16px;
-		padding:0 16px 46px 16px;
-		border-bottom:1px solid #dcdddd;
+		padding:0 0px 0px 0px;
+		border-bottom:4px solid #dcdddd;
 		position:relative;
 		.icon-shopping-add{
 			color:$bgcolor;
@@ -50,6 +50,9 @@ $bgcolor:#51B951;
 		.order-action-box{
 			font-size:16px;
 			padding:0 0 8px 0;
+			border-bottom:1px solid #dcdddd;
+			padding:0 10px 6px;
+			color:$bgcolor;
 			.order-num-title{
 			}
 			.order-num{
@@ -79,6 +82,14 @@ $bgcolor:#51B951;
 				color:#888;
 			}
 		}
+		.product-detail-box{
+			padding:10px 0 10px 10px;
+			position:relative;
+			border-bottom:1px solid #dcdddd;
+		}
+		.product-detail-box:last-child{
+			border-bottom:0;
+		}
 	}
 }
 </style>
@@ -88,126 +99,44 @@ $bgcolor:#51B951;
       全部订单
     </section>
     <section class="category-list-box" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
-        <div class="media">
+    	<!-- 订单列表 start -->
+        <div class="media" v-for="orderObj in orderList">
+          <!--订单号 start-->
           <div class="order-action-box">
           	<span class="order-num-title">订单号</span>
-          	<span class="order-num">S909405603043</span>
-          	<span class="order-status">未支付</span>
+          	<span class="order-num">{{orderObj.tradeNo}}</span>
+          	<span class="order-status" v-if="orderObj.status == 0" style="color:red;">待支付</span>
+          	<span class="order-status" v-if="orderObj.status == 100" style="color:green;">已支付</span>
           </div>
-		  <a class="media-left" href="#">
-		    <img src="../assets/img/meinv1.jpg" alt="../assets/img/meinv1.jpg">
-		  </a>
-		  <div class="media-body">
-		    <h4 class="media-heading">
-		    	红彩椒250g（250g/份）
-		    </h4>
-		    <span style="color:red;">$5.95</span>
-		  </div>
-		  <div class="pay-box">
-			<button class="go-pay" type="button">去支付</button>
-			<button class="cancel-pay" type="button">取消订单</button>
-		  </div>
+          <!--订单号 end-->
+          <!--产品详情 start-->
+          <section class="product-detail-box" v-for="(infoObj,key) in orderObj.otherInfo">
+			  <a class="media-left" href="javascript:;">
+			    <img :src="productLogoPrefix + proMap[orderObj.recordId][key].logoUri" />
+			  </a>
+			  <div class="media-body">
+			    <h4 class="media-heading">
+			    	<router-link :to="{name: 'productDetails', params: {detailId: proMap[orderObj.recordId][key].recordId}}">
+			    		{{proMap[orderObj.recordId][key].title}}
+			    	</router-link>
+			    </h4>
+			    <span style="color:red;">￥{{proMap[orderObj.recordId][key].price}} X {{infoObj}}</span>
+			  </div>
+			  <div class="pay-box">
+				<!-- <button class="go-pay" type="button">去支付</button> -->
+				<router-link :to="{name: 'evaluateDetails', params: {detailId: proMap[orderObj.recordId][key].recordId}}">
+					<button class="cancel-pay" type="button" >评价</button>
+	            </router-link>
+			  </div>
+          </section>
+		  <!--产品详情 end-->
+		  <!--共计多少钱 start-->
+		  <section style="padding:10px;text-align:right;">
+		  	共计：<span style="color:red;">￥{{orderObj.totalPrice}}</span>元
+		  </section>
+		  <!--共计多少钱 start-->
 		</div>
-		 <div class="media">
-          <div class="order-action-box">
-          	<span class="order-num-title">订单号</span>
-          	<span class="order-num">S909405603043</span>
-          	<span class="order-status">未支付</span>
-          </div>
-		  <a class="media-left" href="#">
-		    <img src="../assets/img/meinv1.jpg" alt="../assets/img/meinv1.jpg">
-		  </a>
-		  <div class="media-body">
-		    <h4 class="media-heading">
-		    	红彩椒250g（250g/份）
-		    </h4>
-		    <span style="color:red;">$5.95</span>
-		  </div>
-		  <div class="pay-box">
-			<button class="go-pay" type="button">去支付</button>
-			<button class="cancel-pay" type="button">取消订单</button>
-		  </div>
-		</div>
-		<div class="media">
-          <div class="order-action-box">
-          	<span class="order-num-title">订单号</span>
-          	<span class="order-num">S909405603043</span>
-          	<span class="order-status">未支付</span>
-          </div>
-		  <a class="media-left" href="#">
-		    <img src="../assets/img/meinv1.jpg" alt="../assets/img/meinv1.jpg">
-		  </a>
-		  <div class="media-body">
-		    <h4 class="media-heading">
-		    	红彩椒250g（250g/份）
-		    </h4>
-		    <span style="color:red;">$5.95</span>
-		  </div>
-		  <div class="pay-box">
-			<button class="go-pay" type="button">去支付</button>
-			<button class="cancel-pay" type="button">取消订单</button>
-		  </div>
-		</div>
-		 <div class="media">
-          <div class="order-action-box">
-          	<span class="order-num-title">订单号</span>
-          	<span class="order-num">S909405603043</span>
-          	<span class="order-status">未支付</span>
-          </div>
-		  <a class="media-left" href="#">
-		    <img src="../assets/img/meinv1.jpg" alt="../assets/img/meinv1.jpg">
-		  </a>
-		  <div class="media-body">
-		    <h4 class="media-heading">
-		    	红彩椒250g（250g/份）
-		    </h4>
-		    <span style="color:red;">$5.95</span>
-		  </div>
-		  <div class="pay-box">
-			<button class="go-pay" type="button">去支付</button>
-			<button class="cancel-pay" type="button">取消订单</button>
-		  </div>
-		</div>
-		<div class="media">
-          <div class="order-action-box">
-          	<span class="order-num-title">订单号</span>
-          	<span class="order-num">S909405603043</span>
-          	<span class="order-status">未支付</span>
-          </div>
-		  <a class="media-left" href="#">
-		    <img src="../assets/img/meinv1.jpg" alt="../assets/img/meinv1.jpg">
-		  </a>
-		  <div class="media-body">
-		    <h4 class="media-heading">
-		    	红彩椒250g（250g/份）
-		    </h4>
-		    <span style="color:red;">$5.95</span>
-		  </div>
-		  <div class="pay-box">
-			<button class="go-pay" type="button">去支付</button>
-			<button class="cancel-pay" type="button">取消订单</button>
-		  </div>
-		</div>
-		 <div class="media">
-          <div class="order-action-box">
-          	<span class="order-num-title">订单号</span>
-          	<span class="order-num">S909405603043</span>
-          	<span class="order-status">未支付</span>
-          </div>
-		  <a class="media-left" href="#">
-		    <img src="../assets/img/meinv1.jpg" alt="../assets/img/meinv1.jpg">
-		  </a>
-		  <div class="media-body">
-		    <h4 class="media-heading">
-		    	红彩椒250g（250g/份）
-		    </h4>
-		    <span style="color:red;">$5.95</span>
-		  </div>
-		  <div class="pay-box">
-			<button class="go-pay" type="button">去支付</button>
-			<button class="cancel-pay" type="button">取消订单</button>
-		  </div>
-		</div>
+		<!-- 订单列表 end -->
       </section>
   </div>
 </template>
@@ -221,7 +150,9 @@ Vue.use(VueInfiniteScroll)
 export default {
     	data() {
             return {
-                
+            	orderList:[],
+            	proMap:{},
+            	productLogoPrefix:"http://likezu-test.oss-cn-shanghai.aliyuncs.com/"
             }
         },
         created() {
@@ -235,8 +166,36 @@ export default {
         },
         methods: {
             fetchData() {
-                
-                
+                var _self = this;
+                var listMyOrderPara = {"api_u_key":getCookie("api_u_key")};
+                commonAjax("/api/order/listMyOrder.xhtml",listMyOrderPara,"post",function(data){
+                    data = JSON.parse(data);
+                    if(data.isSuccess){
+                    	_self.proMap = data.data.proMap;
+                        _self.orderList = data.data.orderList;
+                        for(var i in _self.orderList){
+                        	_self.orderList[i].otherInfo = JSON.parse(_self.orderList[i].otherInfo);
+
+                        	_self.orderList[i].totalPrice = 0;
+                        	for (var key in _self.orderList[i].otherInfo){
+                        		var productNum = _self.orderList[i].otherInfo[key];
+                        		var productPrice = _self.proMap[_self.orderList[i].recordId][key].price;
+                        		_self.orderList[i].totalPrice = (productNum * productPrice) + _self.orderList[i].totalPrice;
+                        	}
+                        	console.log("proTotalPrice:" + _self.orderList[i].totalPrice);
+                        }
+                        //临时方案，删除数据不正常的
+                        // var orderListTemp = [];
+                        // for(var i in _self.orderList){
+                        // 	if(_self.orderList[i].tradeNo == "117010410025794495" || _self.orderList[i].tradeNo == "117010409411566672"){
+                        // 		orderListTemp.push(_self.orderList[i]);
+                        // 		console.log(_self.orderList[i].tradeNo);
+                        // 	}
+                        // }
+                        // _self.orderList = orderListTemp;
+                        //临时方案
+                    }
+                });
             },
             loadMore: function() {
                 console.log("loadMore category...");

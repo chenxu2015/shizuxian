@@ -13,57 +13,65 @@
             </div>
         </section>
         <section class="account-balance clearfix">
-            <div class="Recharge-balance col-xs-6 col-md-6">
-                <div class="balance-item clearfix">
-                    <div class="balance-icon">
-                        <img src="../assets/img/recharge-balance.png" height="72" width="72" />
+                <router-link :to="{path: '/content/recharge'}">
+                    <div class="Recharge-balance col-xs-6 col-md-6">
+                            <div class="balance-item clearfix">
+                                <div class="balance-icon">
+                                    <img src="../assets/img/recharge-balance.png" height="72" width="72" />
+                                </div>
+                                <div class="balance-info">
+                                    <p class="balance-quantity" v-show="memberInfo.amount">￥{{memberInfo.amount}}</p>
+                                    <p class="balance-quantity" v-show="!memberInfo.amount">￥0</p>
+                                    <p>充值余额</p>
+                                </div>
+                            </div>
                     </div>
-                    <div class="balance-info">
-                        <p class="balance-quantity">0.00</p>
-                        <p>充值余额</p>
-                    </div>
-                </div>
-            </div>
+                </router-link>
             <div class="purse-balance col-xs-6 col-md-6">
                 <div class="balance-item clearfix purse">
-                    <div class="balance-icon">
+                    <!-- <div class="balance-icon">
                         <img src="../assets/img/purse-balance.png" height="72" width="72" />
-                    </div>
-                    <div class="balance-info">
+                    </div> -->
+                    <!-- <div class="balance-info">
                         <p class="balance-quantity">0.00</p>
                         <p>钱包余额</p>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </section>
         <section class="function-area">
         	<ul class="function-list">
         		<li class="col-xs-3 function-item">
-                    <router-link :to="{path: '/content/collect'}" class="iconfont icon-collect" style="color:rgba(88,153,217,1);">
-                        <span>收藏</span>
+                     <router-link :to="{path: '/content/collect'}">
+                        <img src="../../static/icon/我的账户-收藏.png" />
+                        <p>我的收藏</p>
                      </router-link>
-        			<img src="../../static/icon/我的账户-收藏.png" />
-        			<p>我的收藏</p>
         		</li>
                 <li class="col-xs-3">
-                    <img src="../../static/icon/我的账户-订单.png" />
-                    <p>订单查询</p>
+                    <router-link :to="{path: '/content/all-order'}">
+                        <img src="../../static/icon/我的账户-订单.png" />
+                        <p>订单查询</p>
+                    </router-link>
                 </li>
                 <li class="col-xs-3">
-                    <img src="../../static/icon/我的账户-地址.png" />
-                    <p>收货地址</p>
+                    <router-link :to="{path: '/content/address'}">
+                        <img src="../../static/icon/我的账户-地址.png" />
+                        <p>收货地址</p>
+                    </router-link>
                 </li>
-                <li class="col-xs-3">
+                <!-- <li class="col-xs-3">
                     <img src="../../static/icon/我的账户-收藏.png" />
                     <p>在线退换货</p>
-                </li>
+                </li> -->
                 <li class="col-xs-3">
                     <img src="../../static/icon/我的账户-关于我们.png" />
                     <p>关于我们</p>
                 </li>
                 <li class="col-xs-3">
-                    <img src="../../static/icon/我的账户-电话 副本.png" />
-                    <p>客服电话</p>
+                    <a href="tel:15900996441">
+                        <img src="../../static/icon/我的账户-电话 副本.png" />
+                        <p>客服电话</p>
+                    </a>
                 </li>
                 <li class="col-xs-3 question">
                     <img src="../../static/icon/我的账户-问题.png" />
@@ -91,7 +99,7 @@ export default {
         methods: {
             fetchData() {
                 var _self = this;
-                //获取验证码 start
+                console.log("测试前缀地址urlPrefix111：" + urlPrefix);
                 function getLoginMemberInfoFunc(data){
                     data = JSON.parse(data);
                     if(data.code == "3000"){
@@ -99,6 +107,7 @@ export default {
                     }else{
                         if(data.isSuccess){
                             _self.memberInfo = data.data;
+                            setCookie("recordId", _self.memberInfo.member.recordId);
                         }
                     }
                 }
@@ -145,7 +154,7 @@ $bgcolor:#51b951;
     border: 1px solid #DEDEDE;
     padding: 15px 0;
     .balance-item {
-    	border-right:1px solid #DEDEDE;
+    	// border-right:1px solid #DEDEDE;
         .balance-icon {
             float: left;
             margin-right: 10px;
